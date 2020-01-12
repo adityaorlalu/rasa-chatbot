@@ -1,36 +1,93 @@
+slots:
+  location:
+    type: text
+  cuisine:
+    type: text
+  budget_min:
+      type: float
+      initial_value: 0.0
+  budget_max:
+      type: float
+      initial_value: 10000.0      
+  email_id:
+      type: text
+
+entities:
+- location
+- cuisine
+- budget_min
+- budget_max
+- email_id
+
 intents:
-  - greet
-  - goodbye
-  - affirm
-  - deny
-  - mood_great
-  - mood_unhappy
-  - bot_challenge
+- greet
+- affirm
+- deny
+- goodbye
+- restaurant_search
+- send_email
 
 actions:
 - utter_greet
-- utter_cheer_up
-- utter_did_that_help
-- utter_happy
 - utter_goodbye
-- utter_iamabot
+- utter_default
+- utter_ask_how_can_i_help
+- utter_ask_location
+- utter_ask_cuisine
+- utter_ask_budget
+- utter_ask_affirm_for_email
+- utter_ask_email_id
+- utter_response_after_send_email
+- utter_response_for_no_send_email
+- action_search_restaurants
+- action_send_email
+- action_verify_location
+- action_verify_cuisine
+- action_verify_budget
 
 templates:
   utter_greet:
-  - text: "Hey! How are you?"
-
-  utter_cheer_up:
-  - text: "Here is something to cheer you up:"
-    image: "https://i.imgur.com/nGF1K8f.jpg"
-
-  utter_did_that_help:
-  - text: "Did that help you?"
-
-  utter_happy:
-  - text: "Great, carry on!"
-
+  - "Hey there! how may I help you"
+  - "Hi! how can I help you"
   utter_goodbye:
-  - text: "Bye"
+  - "Thanks for reaching out to us. Have a good day. Bye!!"
+  - "Bye-Bye"
+  utter_default:
+  - "Sorry, can you please provide valid input."
+  utter_ask_how_can_i_help:
+  - "How may I help you today"
+  utter_ask_location:
+  - "In which location?"
+  utter_ask_cuisine:
+  - text: "What kind of cuisine would you like?"
+    buttons:
+    - title: "Chinese"
+      payload: '/restaurant_search{cuisine:chinese}'
+    - title: "Mexican"
+      payload: '/restaurant_search{cuisine:mexican}'
+    - title: "Italian"
+      payload: '/restaurant_search{cuisine:italian}'
+    - title: "American"
+      payload: '/restaurant_search{cuisine:american}'
+    - title: "South Indian"
+      payload: '/restaurant_search{cuisine:"south indian"}'
+    - title: "North Indian"
+      payload: '/restaurant_search{cuisine:"north indian"}'
+    utter_ask_budget:
+    - text: "What price range are you looking for?"
+      buttons:
+      - title: "Less than Rs. 300"
+        payload: '/restaurant_search{budget_min:0, budget_max:300}'
+      - title: "Rs. 300 to 700"
+        payload: '/restaurant_search{budget_min:300, budget_max:700}'
+      - title: "More than 700"
+        payload: '/restaurant_search{budget_min:700, budget_max:10000}'
+    utter_ask_affirm_for_email:
+    - "Would you like us to send email for top 10 searched restaurants?"
+    utter_ask_email_id:
+    - "Sure, Please provide us your Email id"
+    utter_response_after_send_email:
+    - "Email send. Thanks for reaching out to us. Have a good day."
+    utter_response_for_no_send_email:
+    - "Thanks for reaching out to us. Have a good day!"
 
-  utter_iamabot:
-  - text: "I am a bot, powered by Rasa."
