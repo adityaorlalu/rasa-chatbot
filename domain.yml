@@ -46,6 +46,9 @@ actions:
 - action_verify_cuisine
 - action_verify_budget
 
+forms:
+  - restaurant_search_form
+
 templates:
   utter_greet:
   - "Hey there! how may I help you"
@@ -93,4 +96,3 @@ templates:
     - "Email sent. Thanks for reaching out to us. Have a good day."
     utter_response_for_no_send_email:
     - "Thanks for reaching out to us. Have a good day!"
-

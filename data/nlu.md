@@ -12,6 +12,7 @@
 - whats up
 - whazzup
 - Hi
+- Hola
 
 ## intent:goodbye
 - bye
@@ -48,11 +49,13 @@
 - i'm looking for a place to eat
 - I want to grab lunch
 - I am searching for a dinner spot
-- I am looking for some restaurants in [Delhi](location).
-- I am looking for some restaurants in [Bangalore](location)
-- I am looking for some restaurants in [bengaluru](location:Bangalore)
+- I am looking for [american](cuisine) restaurant
+- I am looking for some restaurants in [delhi](location).
+- I am looking for some restaurants in [Bangalore](location:bangalore)
+- I am looking for some restaurants in [bengaluru](location:bangalore)
 - show me [chinese](cuisine) restaurants
-- show me [chines](cuisine:chinese) restaurants in the [New Delhi](location:Delhi)
+- [chinese](cuisine) restaurants in [visakhapatnam](location)
+- show me [chines](cuisine:chinese) restaurants in the [New Delhi](location:delhi)
 - show me a [mexican](cuisine) place in the [centre](location)
 - i am looking for an [indian](cuisine) spot called olaolaolaolaolaola
 - search for restaurants
@@ -60,12 +63,15 @@
 - I am looking for [asian fusion](cuisine) food
 - I am looking a restaurant in [294328](location)
 - in [Gurgaon](location)
-- [South Indian](cuisine)
-- [North Indian](cuisine)
-- [Italian](cuisine)
+- [south indian](cuisine)
+- [north indian](cuisine)
+- [italian](cuisine)
 - [Chinese](cuisine:chinese)
 - [chinese](cuisine)
 - [mexcian](cuisine)
+- [american](cuisine)
+- i'll prefer [thai](cuisine)
+- I will prefer [continental](cuisine)
 - [south indian](cuisine)
 - [south india](cuisine:south indian)
 - [north indian](cuisine)
@@ -73,6 +79,8 @@
 - [Lithuania](location)
 - Oh, sorry, in [Italy](location)
 - in [delhi](location)
+- [bengaluru](location:bangalore)
+- [New delhi](location:delhi)
 - I am looking for some restaurants in [Mumbai](location)
 - I am looking for [mexican indian fusion](cuisine:mexican)
 - [patna](location) [indian](cuisine) restaurant
@@ -88,9 +96,114 @@
 - [delhi](location)
 - please find me a restaurant in [ahmedabad](location)
 - please show me a few [italian](cuisine) restaurants in [bangalore](location)
+- please help me find [south indian](cuisine) place in [ranchi](location)
+- [bangalore](location) 
+- [chennai](location) 
+- [delhi](location) 
+- [hyderabad](location) 
+- [kolkata](location) 
+- [mumbai](location) 
+- [ahmedabad](location) 
+- [pune](location)
+- [agra](location) 
+- [ajmer](location) 
+- [aligarh](location) 
+- [amravati](location) 
+- [amritsar](location) 
+- [asansol](location) 
+- [aurangabad](location) 
+- [bareilly](location) 
+- [belgaum](location) 
+- [bhavnagar](location) 
+- [bhiwandi](location) 
+- [bhopal](location) 
+- [bhubaneswar](location) 
+- [bikaner](location) 
+- [bilaspur](location) 
+- [bokaro steel city](location) 
+- [chandigarh](location) 
+- [coimbatore](location)
+- [nagpur](location) 
+- [cuttack](location) 
+- [dehradun](location) 
+- [dhanbad](location) 
+- [bhilai](location) 
+- [durgapur](location) 
+- [erode](location) 
+- [faridabad](location) 
+- [firozabad](location) 
+- [ghaziabad](location)
+- [gorakhpur](location) 
+- [gulbarga](location) 
+- [guntur](location) 
+- [gwalior](location) 
+- [gurgaon](location) 
+- [guwahati](location) 
+- [hamirpur](location)
+- [hubli–dharwad](location) 
+- [indore](location) 
+- [jabalpur](location) 
+- [jaipur](location) 
+- [jalandhar](location) 
+- [jammu](location) 
+- [jamnagar](location) 
+- [jamshedpur](location) 
+- [jhansi](location) 
+- [jodhpur](location)
+- [kakinada](location) 
+- [kannur](location) 
+- [kanpur](location) 
+- [kochi](location) 
+- [kolhapur](location) 
+- [kollam](location) 
+- [kozhikode](location) 
+- [kurnool](location) 
+- [ludhiana](location) 
+- [lucknow](location) 
+- [madurai](location)
+- [malappuram](location) 
+- [mathura](location) 
+- [goa](location) 
+- [mangalore](location) 
+- [meerut](location) 
+- [moradabad](location) 
+- [mysore](location) 
+- [nanded](location) 
+- [nashik](location) 
+- [nellore](location) 
+- [noida](location)
+- [patna](location) 
+- [pondicherry](location) 
+- [purulia](location) 
+- [prayagraj](location) 
+- [raipur](location) 
+- [rajkot](location) 
+- [rajahmundry](location) 
+- [ranchi](location) 
+- [rourkela](location) 
+- [salem](location) 
+- [sangli](location)
+- [shimla](location) 
+- [siliguri](location) 
+- [solapur](location) 
+- [srinagar](location) 
+- [thiruvananthapuram](location) 
+- [thrissur](location) 
+- [tiruchirappalli](location) 
+- [tiruppur](location) 
+- [ujjain](location)
+- [bijapur](location) 
+- [vadodara](location) 
+- [varanasi](location) 
+- [vasai-virar city](location) 
+- [vijayawada](location) 
+- [vellore](location) 
+- [warangal](location) 
+- [surat](location) 
+- [visakhapatnam](location)
 
 ## intent:user_choice
-- [1](userchoice)
+- [1](userchoice).
 - [2](userchoice)
 - [3](userchoice)
 
@@ -99,20 +212,32 @@
 - Less than [300](budget)
 - Lesser than [300](budget)
 - < [300](budget)
-- <[300](budget)
+- [<300](budget)
 - more than [700](budget)
 - More than [700](budget)
-- > [700](budget)
-- >[700](budget)
+- > [700](budget_min)
+- [>700](budget_min)
 - Lesser than Rs. [300](budget)
 - Rs. [300](budget_min) to [700](budget)
+- I am looking for between [300](budget_min) to [700](budget)
 - around [700](budget)
 - around [0](budget)
+- within [500](budget)
+- budget to be around [500](budget)
+- budget to be within [500](budget)
+- [300-700](budget) range
 
 ## intent:send_email
 - please send email to [adityalalu@gmail.com](email_id)
-- emailid:[adi_343_g@gmail.com](email_id)
+- emailid:[adi_343_g@yahoo.com](email_id)
 - email to: [zzdy1232@gmail.com](email_id)
+- [abhishek.332@gmail.com](email_id)
+- [abhishek@upgrad.com](email_id)
+- [abhishek@upgrad.com](email_id)
+- yes. Please send it to [abc@dkj.com](email_id)
+- [ahbcdj@dkj.com](email_id)
+- [xyz@sth.edu](email_id)
+- [adi_343_g@yahoo.co.au](email_id)
 
 ## synonym:chinese
 - chines
@@ -504,7 +629,7 @@
 - viskapatnam
 
 ## regex:email_id
-- [A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}
+- [a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$
 
 ## regex:greet
 - hey[^\s]*
