@@ -33,6 +33,7 @@ actions:
 - utter_default
 - utter_ask_how_can_i_help
 - utter_ask_location
+- utter_prompt_do_not_operate
 - utter_ask_cuisine
 - utter_ask_budget
 - utter_ask_affirm_for_email
@@ -57,9 +58,11 @@ templates:
   utter_ask_how_can_i_help:
   - "How may I help you today"
   utter_ask_location:
-  - "In which location?"
+  - "In which city are you looking for restaurants?"
+  utter_prompt_do_not_operate:
+  - "We do not operate in that area yet"
   utter_ask_cuisine:
-  - text: "What kind of cuisine would you like?"
+  - text: "What kind of cuisine would you prefer?"
     buttons:
     - title: "Chinese"
       payload: '/restaurant_search{cuisine:chinese}'
@@ -74,9 +77,9 @@ templates:
     - title: "North Indian"
       payload: '/restaurant_search{cuisine:"north indian"}'
     utter_ask_budget:
-    - text: "What price range are you looking for?"
+    - text: "What price range are you looking at?"
       buttons:
-      - title: "Less than Rs. 300"
+      - title: "Lesser than Rs. 300"
         payload: '/restaurant_search{budget_min:0, budget_max:300}'
       - title: "Rs. 300 to 700"
         payload: '/restaurant_search{budget_min:300, budget_max:700}'
@@ -87,7 +90,7 @@ templates:
     utter_ask_email_id:
     - "Sure, Please provide us your Email id"
     utter_response_after_send_email:
-    - "Email send. Thanks for reaching out to us. Have a good day."
+    - "Email sent. Thanks for reaching out to us. Have a good day."
     utter_response_for_no_send_email:
     - "Thanks for reaching out to us. Have a good day!"
 

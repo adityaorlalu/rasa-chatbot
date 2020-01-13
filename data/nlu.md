@@ -89,6 +89,26 @@
 - please find me a restaurant in [ahmedabad](location)
 - please show me a few [italian](cuisine) restaurants in [bangalore](location)
 
+## intent:user_choice
+- [1](userchoice)
+- [2](userchoice)
+- [3](userchoice)
+
+## intent:budget_choice
+- less than [300](budget)
+- Less than [300](budget)
+- Lesser than [300](budget)
+- < [300](budget)
+- <[300](budget)
+- more than [700](budget)
+- More than [700](budget)
+- > [700](budget)
+- >[700](budget)
+- Lesser than Rs. [300](budget)
+- Rs. [300](budget_min) to [700](budget)
+- around [700](budget)
+- around [0](budget)
+
 ## intent:send_email
 - please send email to [adityalalu@gmail.com](email_id)
 - emailid:[adi_343_g@gmail.com](email_id)
