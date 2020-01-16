@@ -72,9 +72,7 @@
 - [american](cuisine)
 - i'll prefer [thai](cuisine)
 - I will prefer [continental](cuisine)
-- [south indian](cuisine)
 - [south india](cuisine:south indian)
-- [north indian](cuisine)
 - [north india](cuisine:north indian)
 - [Lithuania](location)
 - Oh, sorry, in [Italy](location)
@@ -87,9 +85,7 @@
 - please help me to find restaurants in [pune](location)
 - Please find me a restaurantin [bangalore](location)
 - [mumbai](location)
-- [Chinese](cuisine:chinese)
 - show me restaurants
-- [mumbai](location)
 - [Italian](cuisine)
 - please find me [chinese](cuisine) restaurant in [delhi](location)
 - can you find me a [chinese](cuisine) restaurant
@@ -97,110 +93,112 @@
 - please find me a restaurant in [ahmedabad](location)
 - please show me a few [italian](cuisine) restaurants in [bangalore](location)
 - please help me find [south indian](cuisine) place in [ranchi](location)
-- [bangalore](location) 
-- [chennai](location) 
-- [delhi](location) 
-- [hyderabad](location) 
-- [kolkata](location) 
-- [mumbai](location) 
-- [ahmedabad](location) 
+- [bangalore](location)
+- [chennai](location)
+- [hyderabad](location)
+- [kolkata](location)
+- [ahmedabad](location)
 - [pune](location)
-- [agra](location) 
-- [ajmer](location) 
-- [aligarh](location) 
-- [amravati](location) 
-- [amritsar](location) 
-- [asansol](location) 
-- [aurangabad](location) 
-- [bareilly](location) 
-- [belgaum](location) 
-- [bhavnagar](location) 
-- [bhiwandi](location) 
-- [bhopal](location) 
-- [bhubaneswar](location) 
-- [bikaner](location) 
-- [bilaspur](location) 
-- [bokaro steel city](location) 
-- [chandigarh](location) 
+- [agra](location)
+- [ajmer](location)
+- [aligarh](location)
+- [amravati](location)
+- [amritsar](location)
+- [asansol](location)
+- [aurangabad](location)
+- [bareilly](location)
+- [belgaum](location)
+- [bhavnagar](location)
+- [bhiwandi](location)
+- [bhopal](location)
+- [bhubaneswar](location)
+- [bikaner](location)
+- [bilaspur](location)
+- [bokaro steel city](location)
+- [chandigarh](location)
 - [coimbatore](location)
-- [nagpur](location) 
-- [cuttack](location) 
-- [dehradun](location) 
-- [dhanbad](location) 
-- [bhilai](location) 
-- [durgapur](location) 
-- [erode](location) 
-- [faridabad](location) 
-- [firozabad](location) 
+- [nagpur](location)
+- [cuttack](location)
+- [dehradun](location)
+- [dhanbad](location)
+- [bhilai](location)
+- [durgapur](location)
+- [erode](location)
+- [faridabad](location)
+- [firozabad](location)
 - [ghaziabad](location)
-- [gorakhpur](location) 
-- [gulbarga](location) 
-- [guntur](location) 
-- [gwalior](location) 
-- [gurgaon](location) 
-- [guwahati](location) 
+- [gorakhpur](location)
+- [gulbarga](location)
+- [guntur](location)
+- [gwalior](location)
+- [gurgaon](location)
+- [guwahati](location)
 - [hamirpur](location)
-- [hubli–dharwad](location) 
-- [indore](location) 
-- [jabalpur](location) 
-- [jaipur](location) 
-- [jalandhar](location) 
-- [jammu](location) 
-- [jamnagar](location) 
-- [jamshedpur](location) 
-- [jhansi](location) 
+- [hubli–dharwad](location)
+- [indore](location)
+- [jabalpur](location)
+- [jaipur](location)
+- [jalandhar](location)
+- [jammu](location)
+- [jamnagar](location)
+- [jamshedpur](location)
+- [jhansi](location)
 - [jodhpur](location)
-- [kakinada](location) 
-- [kannur](location) 
-- [kanpur](location) 
-- [kochi](location) 
-- [kolhapur](location) 
-- [kollam](location) 
-- [kozhikode](location) 
-- [kurnool](location) 
-- [ludhiana](location) 
-- [lucknow](location) 
+- [kakinada](location)
+- [kannur](location)
+- [kanpur](location)
+- [kochi](location)
+- [kolhapur](location)
+- [kollam](location)
+- [kozhikode](location)
+- [kurnool](location)
+- [ludhiana](location)
+- [lucknow](location)
 - [madurai](location)
-- [malappuram](location) 
-- [mathura](location) 
-- [goa](location) 
-- [mangalore](location) 
-- [meerut](location) 
-- [moradabad](location) 
-- [mysore](location) 
-- [nanded](location) 
-- [nashik](location) 
-- [nellore](location) 
+- [malappuram](location)
+- [mathura](location)
+- [goa](location)
+- [mangalore](location)
+- [meerut](location)
+- [moradabad](location)
+- [mysore](location)
+- [nanded](location)
+- [nashik](location)
+- [nellore](location)
 - [noida](location)
-- [patna](location) 
-- [pondicherry](location) 
-- [purulia](location) 
-- [prayagraj](location) 
-- [raipur](location) 
-- [rajkot](location) 
-- [rajahmundry](location) 
-- [ranchi](location) 
-- [rourkela](location) 
-- [salem](location) 
+- [patna](location)
+- [pondicherry](location)
+- [purulia](location)
+- [prayagraj](location)
+- [raipur](location)
+- [rajkot](location)
+- [rajahmundry](location)
+- [ranchi](location)
+- [rourkela](location)
+- [salem](location)
 - [sangli](location)
-- [shimla](location) 
-- [siliguri](location) 
-- [solapur](location) 
-- [srinagar](location) 
-- [thiruvananthapuram](location) 
-- [thrissur](location) 
-- [tiruchirappalli](location) 
-- [tiruppur](location) 
+- [shimla](location)
+- [siliguri](location)
+- [solapur](location)
+- [srinagar](location)
+- [thiruvananthapuram](location)
+- [thrissur](location)
+- [tiruchirappalli](location)
+- [tiruppur](location)
 - [ujjain](location)
-- [bijapur](location) 
-- [vadodara](location) 
-- [varanasi](location) 
-- [vasai-virar city](location) 
-- [vijayawada](location) 
-- [vellore](location) 
-- [warangal](location) 
-- [surat](location) 
+- [bijapur](location)
+- [vadodara](location)
+- [varanasi](location)
+- [vasai-virar city](location)
+- [vijayawada](location)
+- [vellore](location)
+- [warangal](location)
+- [surat](location)
 - [visakhapatnam](location)
+- I am looking for restaurant
+- [danapur](location)
+- [delhi](location)
+- [chinese](cuisine)
 
 ## intent:user_choice
 - [1](userchoice).
@@ -226,6 +224,7 @@
 - budget to be around [500](budget)
 - budget to be within [500](budget)
 - [300-700](budget) range
+- [<700](location)[](budget:<700)
 
 ## intent:send_email
 - please send email to [adityalalu@gmail.com](email_id)
@@ -233,75 +232,18 @@
 - email to: [zzdy1232@gmail.com](email_id)
 - [abhishek.332@gmail.com](email_id)
 - [abhishek@upgrad.com](email_id)
-- [abhishek@upgrad.com](email_id)
 - yes. Please send it to [abc@dkj.com](email_id)
 - [ahbcdj@dkj.com](email_id)
 - [xyz@sth.edu](email_id)
 - [adi_343_g@yahoo.co.au](email_id)
 
-## synonym:chinese
-- chines
-- Chines
-
-## synonym:mexican
-- Mexicn
-- mxican
-
-## synonym:italian
-- Italin
-- Itlian
-
-## synonym:american
-- americn
-- amrican
-
-## synonym:south indian
-- south india
-- south
-
-## synonym:north indian
-- north india
-- north
-
-## synonym:bangalore
-- bengaluru
-- bangalur
-
-## synonym:chennai
-- chenni
-- chenai
-- madras
-
-## synonym:delhi
-- new delhi
-- naya delhi
-- dilli
-
-## synonym:hyderabad
-- hyderbad
-- hyderabd
-
-## synonym:kolkota
-- culcutta
-- kolkatta
-- kalkata
-
-## synonym:mumbai
-- mambai
-- bombay 
-- bambai
+## synonym:agra
+- aagra
+- agraa
 
 ## synonym:ahmedabad
 - ahmedbad
 - ahemdabad
-
-## synonym:pune
-- puna
-- poone
-
-## synonym:agra
-- aagra
-- agraa
 
 ## synonym:ajmer
 - ajmere
@@ -310,6 +252,10 @@
 - aligardh
 - alligard
 - alligardh
+
+## synonym:american
+- americn
+- amrican
 
 ## synonym:amravati
 - amrvati
@@ -327,6 +273,11 @@
 - aurangbad
 - aurangadb
 
+## synonym:bangalore
+- Bangalore
+- bengaluru
+- bangalur
+
 ## synonym:bareilly
 - barelly
 
@@ -335,6 +286,9 @@
 
 ## synonym:bhavnagar
 - bhavanagar
+
+## synonym:bhilai
+- vhilai
 
 ## synonym:bhiwandi
 - bhivandi
@@ -348,6 +302,9 @@
 - bhuvaneswar
 - bhubhneshwar
 - bhubaneshwar
+
+## synonym:bijapur
+- bijpur
 
 ## synonym:bikaner
 - bikanner
@@ -364,12 +321,19 @@
 - chandigardh
 - chandigar
 
+## synonym:chennai
+- chenni
+- chenai
+- madras
+
+## synonym:chinese
+- chines
+- Chinese
+- Chines
+
 ## synonym:coimbatore
 - combatore
 - coimbator
-
-## synonym:nagpur
-- naagpur
 
 ## synonym:cuttack
 - cutack
@@ -379,12 +343,16 @@
 ## synonym:dehradun
 - deharadun
 
+## synonym:delhi
+- New Delhi
+- New delhi
+- new delhi
+- naya delhi
+- dilli
+
 ## synonym:dhanbad
 - dhanbd
 - dhanbadh
-
-## synonym:bhilai
-- vhilai
 
 ## synonym:durgapur
 - dhurgapur
@@ -411,10 +379,6 @@
 ## synonym:guntur
 - guntr
 
-## synonym:gwalior
-- gawalior
-- ghwalior
-
 ## synonym:gurgaon
 - gurgao
 
@@ -423,6 +387,10 @@
 - guwahatti
 - guwahathi
 
+## synonym:gwalior
+- gawalior
+- ghwalior
+
 ## synonym:hamirpur
 - hameerpur
 
@@ -430,8 +398,16 @@
 - hubli
 - dharwad
 
+## synonym:hyderabad
+- hyderbad
+- hyderabd
+
 ## synonym:indore
 - indor
+
+## synonym:italian
+- Italin
+- Itlian
 
 ## synonym:jabalpur
 - jablpur
@@ -476,6 +452,11 @@
 ## synonym:kolhapur
 - kolapur
 
+## synonym:kolkota
+- culcutta
+- kolkatta
+- kalkata
+
 ## synonym:kollam
 - kolam
 
@@ -487,12 +468,12 @@
 - kurnol
 - koornool
 
+## synonym:lucknow
+- luknow
+
 ## synonym:ludhiana
 - ludiana
 - ludhana
-
-## synonym:lucknow
-- luknow
 
 ## synonym:madurai
 - madhurai
@@ -500,20 +481,33 @@
 ## synonym:malappuram
 - malapuram
 
-## synonym:mathura
-- matura
-
 ## synonym:mangalore
 - manglore
+
+## synonym:mathura
+- matura
 
 ## synonym:meerut
 - merut
 
+## synonym:mexican
+- mexican indian fusion
+- Mexicn
+- mxican
+
 ## synonym:moradabad
 - modradhabad
 
+## synonym:mumbai
+- mambai
+- bombay
+- bambai
+
 ## synonym:mysore
 - mysure
+
+## synonym:nagpur
+- naagpur
 
 ## synonym:nanded
 - nanded
@@ -527,6 +521,10 @@
 ## synonym:noida
 - greater noida
 
+## synonym:north indian
+- north india
+- north
+
 ## synonym:patna
 - pataliputra
 
@@ -534,15 +532,15 @@
 - puducherri
 - pondi
 
-## synonym:purulia
-- purlia
-
 ## synonym:prayagraj
 - allahabad
 
-## synonym:raipur
+## synonym:pune
+- puna
+- poone
 
-## synonym:rajkot
+## synonym:purulia
+- purlia
 
 ## synonym:rajahmundry
 - rajhmundary
@@ -573,6 +571,10 @@
 ## synonym:solapur
 - solapor
 
+## synonym:south indian
+- south india
+- south
+
 ## synonym:srinagar
 - sringar
 - sirinagar
@@ -597,14 +599,6 @@
 ## synonym:ujjain
 - ujain
 
-## synonym:bijapur
-- bijpur
-
-## synonym:vododara
-- boroda
-- vododra
-- vorodara
-
 ## synonym:varanasi
 - banaras
 - varnasi
@@ -613,20 +607,23 @@
 - vasai
 - virar
 
+## synonym:vellore
+- velore
+
 ## synonym:vijayawarda
 - vijaywada
 - vijaiwada
 
-## synonym:vellore
-- velore
+## synonym:viskhapatnam
+- viskapatnam
+
+## synonym:vododara
+- boroda
+- vododra
+- vorodara
 
 ## synonym:warangal
 - varangal
-
-## synonym:surat
-
-## synonym:viskhapatnam
-- viskapatnam
 
 ## regex:email_id
 - [a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$

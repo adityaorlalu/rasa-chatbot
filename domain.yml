@@ -1,98 +1,76 @@
-slots:
-  location:
-    type: text
-  cuisine:
-    type: text
-  budget_min:
-      type: float
-      initial_value: 0.0
-  budget_max:
-      type: float
-      initial_value: 10000.0      
-  email_id:
-      type: text
-
+actions:
+- utter_ask_cuisine
+- utter_ask_how_can_i_help
+- utter_ask_location
+- utter_default
+- utter_goodbye
+- utter_greet
+- utter_prompt_do_not_operate
 entities:
-- location
-- cuisine
-- budget_min
+- budget
 - budget_max
+- budget_min
+- cuisine
 - email_id
-
+- location
+forms:
+- restaurant_search_form
 intents:
+- budget_choice
 - greet
+- restaurant_search
 - affirm
 - deny
 - goodbye
-- restaurant_search
 - send_email
-
-actions:
-- utter_greet
-- utter_goodbye
-- utter_default
-- utter_ask_how_can_i_help
-- utter_ask_location
-- utter_prompt_do_not_operate
-- utter_ask_cuisine
-- utter_ask_budget
-- utter_ask_affirm_for_email
-- utter_ask_email_id
-- utter_response_after_send_email
-- utter_response_for_no_send_email
-- action_search_restaurants
-- action_send_email
-- action_verify_location
-- action_verify_cuisine
-- action_verify_budget
-
-forms:
-  - restaurant_search_form
-
+session_config:
+  carry_over_slots_to_new_session: true
+  session_expiration_time: 480
+slots:
+  budget:
+    auto_fill: false
+    type: unfeaturized
+  budget_min:
+    auto_fill: false
+    type: unfeaturized
+  cuisine:
+    auto_fill: false
+    type: unfeaturized
+  email_id:
+    auto_fill: false
+    type: unfeaturized
+  location:
+    auto_fill: false
+    type: unfeaturized
+  requested_slot:
+    type: unfeaturized
 templates:
-  utter_greet:
-  - "Hey there! how may I help you"
-  - "Hi! how can I help you"
-  utter_goodbye:
-  - "Thanks for reaching out to us. Have a good day. Bye!!"
-  - "Bye-Bye"
-  utter_default:
-  - "Sorry, can you please provide valid input."
-  utter_ask_how_can_i_help:
-  - "How may I help you today"
-  utter_ask_location:
-  - "In which city are you looking for restaurants?"
-  utter_prompt_do_not_operate:
-  - "We do not operate in that area yet"
   utter_ask_cuisine:
-  - text: "What kind of cuisine would you prefer?"
-    buttons:
-    - title: "Chinese"
-      payload: '/restaurant_search{cuisine:chinese}'
-    - title: "Mexican"
-      payload: '/restaurant_search{cuisine:mexican}'
-    - title: "Italian"
-      payload: '/restaurant_search{cuisine:italian}'
-    - title: "American"
-      payload: '/restaurant_search{cuisine:american}'
-    - title: "South Indian"
-      payload: '/restaurant_search{cuisine:"south indian"}'
-    - title: "North Indian"
-      payload: '/restaurant_search{cuisine:"north indian"}'
-    utter_ask_budget:
-    - text: "What price range are you looking at?"
-      buttons:
-      - title: "Lesser than Rs. 300"
-        payload: '/restaurant_search{budget_min:0, budget_max:300}'
-      - title: "Rs. 300 to 700"
-        payload: '/restaurant_search{budget_min:300, budget_max:700}'
-      - title: "More than 700"
-        payload: '/restaurant_search{budget_min:700, budget_max:10000}'
-    utter_ask_affirm_for_email:
-    - "Would you like us to send email for top 10 searched restaurants?"
-    utter_ask_email_id:
-    - "Sure, Please provide us your Email id"
-    utter_response_after_send_email:
-    - "Email sent. Thanks for reaching out to us. Have a good day."
-    utter_response_for_no_send_email:
-    - "Thanks for reaching out to us. Have a good day!"
+  - buttons:
+    - payload: chinese
+      title: Chinese
+    - payload: mexican
+      title: Mexican
+    - payload: italian
+      title: Italian
+    - payload: american
+      title: American
+    - payload: south indian
+      title: South Indian
+    - payload: north indian
+      title: North Indian
+    text: What kind of cuisine would you prefer?
+  utter_ask_how_can_i_help:
+  - text: How may I help you today
+  utter_ask_location:
+  - text: In which city are you looking for restaurants?
+  utter_default:
+  - text: Sorry, can you please provide valid input.
+  utter_goodbye:
+  - text: Thanks for reaching out to us. Have a good day. Bye!!
+  - text: Bye-Bye
+  utter_greet:
+  - text: Hey there! how may I help you
+  - text: Hi! how can I help you
+  utter_prompt_do_not_operate:
+  - text: We do not operate in that area yet

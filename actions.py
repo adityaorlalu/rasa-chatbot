@@ -13,6 +13,7 @@ import entities
 import intents
 
 logger = logging.getLogger(__name__)
+logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=logging.DEBUG)
 
 config={
 	"user_key":"c70b18b69ff112b04d76cebf3fa1a545"
@@ -79,34 +80,40 @@ class RestaurantSearchForm(FormAction):
 			'shimla', 'siliguri', 'solapur', 'srinagar', 'thiruvananthapuram', 'thrissur', 'tiruchirappalli', 'tiruppur', 'ujjain',
 			'bijapur', 'vadodara', 'varanasi', 'vasai-virar city', 'vijayawada', 'vellore', 'warangal', 'surat', 'visakhapatnam'
         ]
-	
+
+
 	def validate_location(self, value: Text, dispatcher: CollectingDispatcher, tracker: Tracker, domain:Dict[Text, Any]) -> Dict[Text, Any]:
+		"""validate location value"""
+		logger.info("validate location is : %s", str(value))
 		if value.lower() in self.location_db():
 			# validation succeeded, set the value of the "location" slot to value
-			return {entities.LOCATION, value.lower()}
+			return {entities.LOCATION : value.lower()}
 		else:
 			# validation failed, set this slot to None, meaning the
             # user will be asked for the slot again
 			dispatcher.utter_message(template='utter_ask_location')
-			return {entities.LOCATION, None}
+			return {entities.LOCATION : None}
+
 
 	def validate_cuisine(self, value: Text, dispatcher: CollectingDispatcher, tracker: Tracker, domain:Dict[Text, Any]) -> Dict[Text, Any]:
 		"""validate cuisine value"""
-
+		logger.info("validate cuisine is : %s", str(value))
 		if value.lower() in self.cuisine_db():
 			 # validation succeeded, set the value of the "cuisine" slot to value
-			return {entities.CUISINE, value.lower()}
+			return {entities.CUISINE : value.lower()}
 		else:
 			# validation failed, set this slot to None, meaning the
             # user will be asked for the slot again
 			dispatcher.utter_message(template='utter_ask_cuisine')
-			return {entities.CUISINE, None}
+			return {entities.CUISINE : None}
+
 
 	def validate_budget(self, value: Text, dispatcher: CollectingDispatcher, tracker: Tracker, domain:Dict[Text, Any]) -> Dict[Text, Any]:
-		"""validate cuisine value"""
+		"""validate budget value"""
 		# Test code
-		logger.log("validate budget is :" , value)
-		return {entities.BUDGET, 700}
+		logger.info("validate budget is : %s", str(value))
+		return {entities.BUDGET : 700}
+
 
 	def submit(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[EventType]:
 		# Test code
@@ -114,7 +121,8 @@ class RestaurantSearchForm(FormAction):
 		zomato = zomatopy.initialize_app(config)
 		loc = tracker.get_slot('location')
 		cuisine = tracker.get_slot('cuisine')
-		logger.log('RestaurantSearchForm : submit' , loc, cuisine)
+		logger.info('RestaurantSearchForm : submit -> {loc} {cuisine}')
+		logger.info("validate cuisine is : %s %s", str(loc) , str(cuisine))
 		location_detail=zomato.get_location(loc, 1)
 		d1 = json.loads(location_detail)
 		lat=d1["location_suggestions"][0]["latitude"]
