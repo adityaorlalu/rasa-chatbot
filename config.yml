@@ -1,7 +1,17 @@
 # Configuration for Rasa NLU.
 # https://rasa.com/docs/rasa/nlu/components/
 language: en
-pipeline: pretrained_embeddings_spacy
+pipeline:
+  - name: "SpacyNLP"
+  - name: "SpacyTokenizer"
+  - name: "SpacyEntityExtractor"
+  - name: "RegexFeaturizer"
+  - name: "SpacyFeaturizer"
+    return_sequence: true
+  - name: "CRFEntityExtractor"
+    return_sequence: true
+  - name: "EntitySynonymMapper"
+  - name: "SklearnIntentClassifier"
 
 # Configuration for Rasa Core.
 # https://rasa.com/docs/rasa/core/policies/

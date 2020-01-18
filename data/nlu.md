@@ -51,8 +51,6 @@
 - I am searching for a dinner spot
 - I am looking for [american](cuisine) restaurant
 - I am looking for some restaurants in [delhi](location).
-- I am looking for some restaurants in [Bangalore](location:bangalore)
-- I am looking for some restaurants in [bengaluru](location:bangalore)
 - show me [chinese](cuisine) restaurants
 - [chinese](cuisine) restaurants in [visakhapatnam](location)
 - show me [chines](cuisine:chinese) restaurants in the [New Delhi](location:delhi)
@@ -63,13 +61,6 @@
 - I am looking for [asian fusion](cuisine) food
 - I am looking a restaurant in [294328](location)
 - in [Gurgaon](location)
-- [south indian](cuisine)
-- [north indian](cuisine)
-- [italian](cuisine)
-- [Chinese](cuisine:chinese)
-- [chinese](cuisine)
-- [mexcian](cuisine)
-- [american](cuisine)
 - i'll prefer [thai](cuisine)
 - I will prefer [continental](cuisine)
 - [south india](cuisine:south indian)
@@ -84,12 +75,10 @@
 - [patna](location) [indian](cuisine) restaurant
 - please help me to find restaurants in [pune](location)
 - Please find me a restaurantin [bangalore](location)
-- [mumbai](location)
 - show me restaurants
 - [Italian](cuisine)
 - please find me [chinese](cuisine) restaurant in [delhi](location)
 - can you find me a [chinese](cuisine) restaurant
-- [delhi](location)
 - please find me a restaurant in [ahmedabad](location)
 - please show me a few [italian](cuisine) restaurants in [bangalore](location)
 - please help me find [south indian](cuisine) place in [ranchi](location)
@@ -199,32 +188,28 @@
 - [danapur](location)
 - [delhi](location)
 - [chinese](cuisine)
-
-## intent:user_choice
-- [1](userchoice).
-- [2](userchoice)
-- [3](userchoice)
-
-## intent:budget_choice
-- less than [300](budget)
-- Less than [300](budget)
-- Lesser than [300](budget)
-- < [300](budget)
-- [<300](budget)
-- more than [700](budget)
-- More than [700](budget)
-- > [700](budget_min)
-- [>700](budget_min)
-- Lesser than Rs. [300](budget)
-- Rs. [300](budget_min) to [700](budget)
-- I am looking for between [300](budget_min) to [700](budget)
-- around [700](budget)
-- around [0](budget)
-- within [500](budget)
-- budget to be around [500](budget)
-- budget to be within [500](budget)
-- [300-700](budget) range
-- [<700](location)[](budget:<700)
+- less than [300](budget:low)
+- Lesser than [300](budget:low)
+- [<300](budget:low)
+- [< 300](budget:low)
+- [<700](budget:moderate)
+- [< 700](budget:moderate)
+- more than [700](budget:high)
+- greater than [700](budget:high)
+- [> 700](budget:high)
+- [>700](budget:high)
+- [> 300](budget:moderate)
+- [>300](budget:moderate)
+- [around 700](budget:moderate)
+- [around 300](budget:low)
+- [within 700](budget:moderate)
+- [within 300](budget:low)
+- Amount Rs. 300 [to 700](budget:moderate)
+- I am looking for money between 300 [to 700](budget:moderate)
+- between 300 [and 700](budget:moderate)
+- 300 [to 700](budget:moderate)
+- 300 [- 700](budget:moderate)
+- 300 [-700](budget:moderate)
 
 ## intent:send_email
 - please send email to [adityalalu@gmail.com](email_id)
@@ -330,6 +315,7 @@
 - chines
 - Chinese
 - Chines
+- chinesse
 
 ## synonym:coimbatore
 - combatore
