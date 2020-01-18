@@ -4,7 +4,6 @@ language: en
 pipeline:
   - name: "SpacyNLP"
   - name: "SpacyTokenizer"
-  - name: "SpacyEntityExtractor"
   - name: "RegexFeaturizer"
   - name: "SpacyFeaturizer"
     return_sequence: true

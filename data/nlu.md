@@ -212,15 +212,15 @@
 - 300 [-700](budget:moderate)
 
 ## intent:send_email
-- please send email to [adityalalu@gmail.com](email_id)
-- emailid:[adi_343_g@yahoo.com](email_id)
-- email to: [zzdy1232@gmail.com](email_id)
-- [abhishek.332@gmail.com](email_id)
-- [abhishek@upgrad.com](email_id)
-- yes. Please send it to [abc@dkj.com](email_id)
-- [ahbcdj@dkj.com](email_id)
-- [xyz@sth.edu](email_id)
-- [adi_343_g@yahoo.co.au](email_id)
+- please send email to [adityalalu@gmail.com](emailid)
+- emailid:[adi_343_g@yahoo.com](emailid)
+- email to: [zzdy1232@gmail.com](emailid)
+- [abhishek.332@gmail.com](emailid)
+- [abhishek@upgrad.com](emailid)
+- yes. Please send it to [abc@dkj.com](emailid)
+- [ahbcdj@dkj.com](emailid)
+- [xyz@sth.edu](emailid)
+- [adi_343_g@yahoo.co.au](emailid)
 
 ## synonym:agra
 - aagra
@@ -611,7 +611,7 @@
 ## synonym:warangal
 - varangal
 
-## regex:email_id
+## regex:emailid
 - [a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$
 
 ## regex:greet

@@ -3,21 +3,16 @@ from multiprocessing import Process, Manager
 import json
 import pandas as pd
 import zomatopy
-from typing import Text, Tuple
+from typing import Text, Tuple, Dict
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=logging.DEBUG)
-
-# Zomato user key
-config={
-	"user_key" : "c70b18b69ff112b04d76cebf3fa1a545"
-	}
 
 """
 This a wrapper class on top of zomato.py
 """
 class ZomatoWapper():
-    def __init__(self, location: Text):
+    def __init__(self, config: Dict, location: Text):
         """ constructor """
         # Initialize zomato class
         self.__zomato = zomatopy.initialize_app(config)

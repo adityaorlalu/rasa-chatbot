@@ -1,7 +1,7 @@
 import logging
 import json
 
-from typing import Text, List, Dict, Union, Any
+from typing import Text, List, Dict, Union, Any, Tuple
 
 from rasa_sdk import Tracker,Action
 from rasa_sdk.events import (SlotSet, EventType)
@@ -12,6 +12,7 @@ import zomatopy
 import entities
 import intents
 from zomatowrapper import ZomatoWapper
+from mail import SendEmailWapper
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=logging.DEBUG)
@@ -20,12 +21,14 @@ config={
 	"user_key":"c70b18b69ff112b04d76cebf3fa1a545"
 	}
 
+SENDER_EMAIL_ADDRESS = ''
+SENDER_EMAIL_PASSWORD = ''
+
 class RestaurantSearchForm(FormAction):
 	""" Form for Restaurant Search """
 	
 	def name(self) -> Text:
 		"""unique name for restaurant search form """
-
 		return "restaurant_search_form"
 	
 	@staticmethod
@@ -45,15 +48,12 @@ class RestaurantSearchForm(FormAction):
 		return {
 			entities.LOCATION : self.from_entity(entity=entities.LOCATION, intent=[intents.RESTAURANT_SEARCH]),
 			entities.CUISINE : self.from_entity(entity=entities.CUISINE, intent=[intents.RESTAURANT_SEARCH]),
-			entities.BUDGET : [
-				self.from_entity(entity=entities.BUDGET, intent=[intents.BUDGET_CHOICE]),
-				self.from_entity(entity=entities.USER_CHOICE)
-			]
+			entities.BUDGET : self.from_entity(entity=entities.BUDGET, intent=[intents.RESTAURANT_SEARCH])
 		}
 
 	@staticmethod
 	def cuisine_db() -> List[Text]:
-		"""Database of supported cuisines"""
+		"""list of supported cuisines"""
 
 		return [
 			'chinese',
@@ -66,7 +66,7 @@ class RestaurantSearchForm(FormAction):
 	
 	@staticmethod
 	def location_db() -> List[Text]:
-		"""Database of supported cuisines"""
+		"""list of supported cuisines"""
 
 		return [
 			'bangalore', 'chennai', 'delhi', 'hyderabad', 'kolkata', 'mumbai', 'ahmedabad', 'pune',
@@ -82,6 +82,18 @@ class RestaurantSearchForm(FormAction):
 			'bijapur', 'vadodara', 'varanasi', 'vasai-virar city', 'vijayawada', 'vellore', 'warangal', 'surat', 'visakhapatnam'
         ]
 
+	@staticmethod
+	def determine_budget_range(budget:Text) -> Tuple[Text, Text]:
+		budget_min = 300
+		budget_max = 700
+		if (budget == 'low') :
+			budget_min = 0
+			budget_max = 300
+		elif(budget_max == 'high'):
+			budget_min = 700
+			budget_max = 1000
+
+		return budget_min, budget_max
 
 	def validate_location(self, value: Text, dispatcher: CollectingDispatcher, tracker: Tracker, domain:Dict[Text, Any]) -> Dict[Text, Any]:
 		"""validate location value"""
@@ -93,7 +105,7 @@ class RestaurantSearchForm(FormAction):
 			# validation failed, set this slot to None, meaning the
             # user will be asked for the slot again
 			dispatcher.utter_message("Presently we dont have offering for location %s.\n Please choose some other location." %(value))
-			dispatcher.utter_template("utter_ask_location")
+			dispatcher.utter_message(template="utter_ask_location")
 			return {entities.LOCATION : None}
 
 
@@ -116,7 +128,10 @@ class RestaurantSearchForm(FormAction):
 		"""validate budget value"""
 		# Test code
 		logger.info("validate budget is : %s", str(value))
-		return {entities.BUDGET : 700, entities.BUDGET_MAX: 700, entities.BUDGET_MIN:300 }
+		buget_min, budget_max = self.determine_budget_range(value)
+
+		dispatcher.utter_message("Searching...")
+		return {entities.BUDGET : value, entities.BUDGET_MAX: budget_max, entities.BUDGET_MIN:buget_min }
 
 
 	def submit(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[EventType]:
@@ -125,25 +140,25 @@ class RestaurantSearchForm(FormAction):
 		budget_max = tracker.get_slot(entities.BUDGET_MAX)
 		budget_min = tracker.get_slot(entities.BUDGET_MIN)
 
-		zomatoWapper = ZomatoWapper(location)
+		zomatoWapper = ZomatoWapper(config, location)
 
 		status, city_id, latitude, longitude = zomatoWapper.get_location()
 		if (status != 'success'):
 			dispatcher.utter_message("Presently we dont have offering for location %s.\n" %(location))
-			dispatcher.utter_template('utter_ask_cuisine')
+			dispatcher.utter_message(template='utter_ask_cuisine')
 			return [SlotSet(entities.LOCATION, None)]
 
 		status, cuisine_id = zomatoWapper.get_cuisine_id(city_id, cuisine)
 		if (status != 'success'):
 			dispatcher.utter_message("Presently we dont have offering for %s cuisine restaurant in location %s.\n" %(cuisine, location))
-			dispatcher.utter_template('utter_ask_cuisine')
+			dispatcher.utter_message(template='utter_ask_cuisine')
 			return [SlotSet(entities.CUISINE, None)]
 		
 		df = zomatoWapper.restaurant_search(latitude, longitude, cuisine_id)
 
 		if (df.shape[0] == 0):
 			dispatcher.utter_message("Presently we dont have offering for %s cuisine restaurant in location %s.\n" %(cuisine, location))
-			dispatcher.utter_template('utter_ask_cuisine')
+			dispatcher.utter_message(template='utter_ask_cuisine')
 			return [SlotSet(entities.CUISINE, None)]
 		
 		df = df[(df['Budget'] < budget_max) & (df['Budget'] > budget_min) ]
@@ -162,34 +177,68 @@ class RestaurantSearchForm(FormAction):
 		
 		return [SlotSet('email_content', details_for_email)]
 
-		# # Test code
-		# # refactoring required
-		# zomato = zomatopy.initialize_app(config)
-		# loc = tracker.get_slot('location')
-		# cuisine = tracker.get_slot('cuisine')
-		# logger.info('RestaurantSearchForm : submit -> {loc} {cuisine}')
-		# logger.info("validate cuisine is : %s %s", str(loc) , str(cuisine))
-		# location_detail=zomato.get_location(loc, 1)
-		# d1 = json.loads(location_detail)
-		# lat=d1["location_suggestions"][0]["latitude"]
-		# lon=d1["location_suggestions"][0]["longitude"]
-		# cuisines_dict={
-		# 	'american' : 5,
-		# 	'chinese' : 25,
-		# 	'italian' : 55,
-		# 	'mexican' : 73,
-		# 	'north indian' : 50,
-		# 	'south indian' : 85
-		# 	}
-		# results=zomato.restaurant_search("", lat, lon, str(cuisines_dict.get(cuisine)), 5)
-		# d = json.loads(results)
-		# response=""
-		# if d['results_found'] == 0:
-		# 	response= "no results"
-		# else:
-		# 	for restaurant in d['restaurants']:
-		# 		response=response+ "Found "+ restaurant['restaurant']['name']+ " in "+ restaurant['restaurant']['location']['address']+"\n"
-		
-		# dispatcher.utter_message("-----"+response)
-		# return [SlotSet('location',loc)]
 
+class SendEmailForm(FormAction):
+	""" Form for sending email Search """
+	
+	def name(self) -> Text:
+		"""unique name for seanding email form """
+		return "send_email_form"
+
+	
+	@staticmethod
+	def required_slots(tracker: Tracker) -> List[Text]:
+		"""a list of required slot for send email"""
+
+		return [
+			entities.EMAIL_ID
+		]
+	
+	def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
+		"""a dictionary to map required solt for restaurant search"""
+		return {
+			entities.EMAIL_ID : [
+				self.from_entity(entity=entities.EMAIL_ID),
+				self.from_intent(intent=intents.AFFIRM, value=True),
+                self.from_intent(intent=intents.DENY, value=False),
+			]		
+		}
+
+	def validate_emailid(self, value: Text, dispatcher: CollectingDispatcher, tracker: Tracker, domain:Dict[Text, Any]) -> Dict[Text, Any]:
+		"""validate email id value"""
+		logger.info("validate email id is : %s", str(value))
+		if (type(value) is not bool and '@' in value) :
+			return {entities.EMAIL_ID : value.lower()}
+		elif (value is True):
+			dispatcher.utter_message(template='utter_ask_emailid_details')
+			return {entities.EMAIL_ID : None}
+		else:
+			return {entities.EMAIL_ID : False}
+	
+	def submit(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[EventType]:
+		email_content_list = tracker.get_slot('email_content')
+		email_id = tracker.get_slot(entities.EMAIL_ID)
+		location = tracker.get_slot(entities.LOCATION)
+		cuisine = tracker.get_slot(entities.CUISINE)
+
+		if (email_id is False):
+			dispatcher.utter_message(template='utter_prompt_no_email')
+			return []
+		
+		subject = "Top rated %s restaurants from %s" %(cuisine, location)
+		email_respone = 'Hi, \n\n Below are the list of top rated restaurants:\n\n'
+		for row in email_content_list:
+			statement = 'Restaurant Name: %s\n' %(row[0])
+			statement = statement + 'Restaurant locality address: %s\n' %(row[1])
+			statement = statement + 'Average budget for two people: %s\n' %(row[2])
+			statement = statement + 'Zomato user rating: %s\n\n' %(row[3])
+			email_respone = email_respone + statement
+		
+		email_respone = email_respone + "\n Regards, \nZomato Team"
+
+		status = SendEmailWapper.send(SENDER_EMAIL_ADDRESS, SENDER_EMAIL_PASSWORD, email_id, subject, email_respone)
+		if (status is True):
+			dispatcher.utter_message(template='utter_repsone_email_sent_success')
+		else:
+			dispatcher.utter_message(template='utter_repsone_email_sent_failed')
+		return []
