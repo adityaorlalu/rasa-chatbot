@@ -11,6 +11,7 @@ from rasa_sdk.forms import FormAction
 import zomatopy
 import entities
 import intents
+from zomatowrapper import ZomatoWapper
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=logging.DEBUG)
@@ -87,23 +88,26 @@ class RestaurantSearchForm(FormAction):
 		logger.info("validate location is : %s", str(value))
 		if value.lower() in self.location_db():
 			# validation succeeded, set the value of the "location" slot to value
-			return {entities.LOCATION : value.lower()}
+			return {entities.LOCATION : value.lower()}			
 		else:
 			# validation failed, set this slot to None, meaning the
             # user will be asked for the slot again
-			dispatcher.utter_message(template='utter_ask_location')
+			dispatcher.utter_message("Presently we dont have offering for location %s.\n Please choose some other location." %(value))
+			dispatcher.utter_template("utter_ask_location")
 			return {entities.LOCATION : None}
 
 
 	def validate_cuisine(self, value: Text, dispatcher: CollectingDispatcher, tracker: Tracker, domain:Dict[Text, Any]) -> Dict[Text, Any]:
 		"""validate cuisine value"""
 		logger.info("validate cuisine is : %s", str(value))
+		location = tracker.get_slot(entities.LOCATION)
 		if value.lower() in self.cuisine_db():
 			 # validation succeeded, set the value of the "cuisine" slot to value
 			return {entities.CUISINE : value.lower()}
 		else:
 			# validation failed, set this slot to None, meaning the
             # user will be asked for the slot again
+			dispatcher.utter_message("Presently we dont have offering for %s cuisine restaurant in location %s.\n" %(value, location))
 			dispatcher.utter_message(template='utter_ask_cuisine')
 			return {entities.CUISINE : None}
 
@@ -112,38 +116,80 @@ class RestaurantSearchForm(FormAction):
 		"""validate budget value"""
 		# Test code
 		logger.info("validate budget is : %s", str(value))
-		return {entities.BUDGET : 700}
+		return {entities.BUDGET : 700, entities.BUDGET_MAX: 700, entities.BUDGET_MIN:300 }
 
 
 	def submit(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[EventType]:
-		# Test code
-		# refactoring required
-		zomato = zomatopy.initialize_app(config)
-		loc = tracker.get_slot('location')
-		cuisine = tracker.get_slot('cuisine')
-		logger.info('RestaurantSearchForm : submit -> {loc} {cuisine}')
-		logger.info("validate cuisine is : %s %s", str(loc) , str(cuisine))
-		location_detail=zomato.get_location(loc, 1)
-		d1 = json.loads(location_detail)
-		lat=d1["location_suggestions"][0]["latitude"]
-		lon=d1["location_suggestions"][0]["longitude"]
-		cuisines_dict={
-			'american' : 5,
-			'chinese' : 25,
-			'italian' : 55,
-			'mexican' : 73,
-			'north indian' : 50,
-			'south indian' : 85
-			}
-		results=zomato.restaurant_search("", lat, lon, str(cuisines_dict.get(cuisine)), 5)
-		d = json.loads(results)
-		response=""
-		if d['results_found'] == 0:
-			response= "no results"
-		else:
-			for restaurant in d['restaurants']:
-				response=response+ "Found "+ restaurant['restaurant']['name']+ " in "+ restaurant['restaurant']['location']['address']+"\n"
+		location = tracker.get_slot(entities.LOCATION)
+		cuisine = tracker.get_slot(entities.CUISINE)
+		budget_max = tracker.get_slot(entities.BUDGET_MAX)
+		budget_min = tracker.get_slot(entities.BUDGET_MIN)
+
+		zomatoWapper = ZomatoWapper(location)
+
+		status, city_id, latitude, longitude = zomatoWapper.get_location()
+		if (status != 'success'):
+			dispatcher.utter_message("Presently we dont have offering for location %s.\n" %(location))
+			dispatcher.utter_template('utter_ask_cuisine')
+			return [SlotSet(entities.LOCATION, None)]
+
+		status, cuisine_id = zomatoWapper.get_cuisine_id(city_id, cuisine)
+		if (status != 'success'):
+			dispatcher.utter_message("Presently we dont have offering for %s cuisine restaurant in location %s.\n" %(cuisine, location))
+			dispatcher.utter_template('utter_ask_cuisine')
+			return [SlotSet(entities.CUISINE, None)]
 		
-		dispatcher.utter_message("-----"+response)
-		return [SlotSet('location',loc)]
+		df = zomatoWapper.restaurant_search(latitude, longitude, cuisine_id)
+
+		if (df.shape[0] == 0):
+			dispatcher.utter_message("Presently we dont have offering for %s cuisine restaurant in location %s.\n" %(cuisine, location))
+			dispatcher.utter_template('utter_ask_cuisine')
+			return [SlotSet(entities.CUISINE, None)]
+		
+		df = df[(df['Budget'] < budget_max) & (df['Budget'] > budget_min) ]
+		df = df.sort_values(by=['Rating'], ascending=False)[:10]
+		df = df.reset_index()
+
+		response = 'Showing you top rated restaurants: \n'
+		for row_index in range(0, 5):
+			statement = "%s - '%s' in '%s' has been rated %s \n" %(str(row_index + 1), df['Name'][row_index], df['Address'][row_index], df['Rating'][row_index])
+			response = response + statement
+		dispatcher.utter_message(response)
+
+		details_for_email = []
+		for row_index in range(0, df.shape[0]):
+			details_for_email.append([df['Name'][row_index], df['Address'][row_index], df['Budget'][row_index], df['Rating'][row_index]])
+		
+		return [SlotSet('email_content', details_for_email)]
+
+		# # Test code
+		# # refactoring required
+		# zomato = zomatopy.initialize_app(config)
+		# loc = tracker.get_slot('location')
+		# cuisine = tracker.get_slot('cuisine')
+		# logger.info('RestaurantSearchForm : submit -> {loc} {cuisine}')
+		# logger.info("validate cuisine is : %s %s", str(loc) , str(cuisine))
+		# location_detail=zomato.get_location(loc, 1)
+		# d1 = json.loads(location_detail)
+		# lat=d1["location_suggestions"][0]["latitude"]
+		# lon=d1["location_suggestions"][0]["longitude"]
+		# cuisines_dict={
+		# 	'american' : 5,
+		# 	'chinese' : 25,
+		# 	'italian' : 55,
+		# 	'mexican' : 73,
+		# 	'north indian' : 50,
+		# 	'south indian' : 85
+		# 	}
+		# results=zomato.restaurant_search("", lat, lon, str(cuisines_dict.get(cuisine)), 5)
+		# d = json.loads(results)
+		# response=""
+		# if d['results_found'] == 0:
+		# 	response= "no results"
+		# else:
+		# 	for restaurant in d['restaurants']:
+		# 		response=response+ "Found "+ restaurant['restaurant']['name']+ " in "+ restaurant['restaurant']['location']['address']+"\n"
+		
+		# dispatcher.utter_message("-----"+response)
+		# return [SlotSet('location',loc)]
 

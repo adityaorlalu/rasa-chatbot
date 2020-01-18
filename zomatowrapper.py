@@ -8,15 +8,14 @@ from typing import Text, Tuple
 logger = logging.getLogger(__name__)
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=logging.DEBUG)
 
-"""
-This a wrapper class on top of zomato.py
-"""
-
 # Zomato user key
 config={
 	"user_key" : "c70b18b69ff112b04d76cebf3fa1a545"
 	}
 
+"""
+This a wrapper class on top of zomato.py
+"""
 class ZomatoWapper():
     def __init__(self, location: Text):
         """ constructor """
@@ -89,7 +88,7 @@ class ZomatoWapper():
             list_obj passed input is instance of Manager.list() object where we would be adding the result from search api
         """
         try:
-            restaurant_details = self.__zomato.restaurant_search('&count=' + str(offset), latitude, longitude, str(cuisine_id), count)
+            restaurant_details = self.__zomato.restaurant_search('&start=' + str(offset), latitude, longitude, str(cuisine_id), count)
         except Exception as err:
             logger.error("An exception occurred: %s", err)
             # return in case of exception
@@ -105,7 +104,7 @@ class ZomatoWapper():
                 restaurant['restaurant']['user_rating']['aggregate_rating']])
 
 
-    def restaurant_search(self, latitude: int, longitude:int, cuisine_id: int, limit: int) -> pd.DataFrame:
+    def restaurant_search(self, latitude: int, longitude:int, cuisine_id: int) -> pd.DataFrame:
         """
             Method uses multiprocessing to get restaurant search from zomato api
             More infomation, check _restaurant_search_offset method
@@ -118,7 +117,7 @@ class ZomatoWapper():
 
         # run below loop for 10 times
         # offset is required as zomato has a limitation where it can give max restaurant count upto 20. providing offset will help in getting more results
-        for offset in range(0, 200, 20):
+        for offset in range(0, 40, 20):
             # create multiprocessing thread, list_obj will the object which will be updated from each thread if result found
             p = Process(target=self._restaurant_search_offset, args=(offset, latitude, longitude, cuisine_id, 20, list_obj))
             jobs.append(p)
@@ -137,4 +136,4 @@ class ZomatoWapper():
     def restaurant_search_by_location(self):
         _, city_id, latitude, longitude = self.get_location()
         _, cuisine_id = self.get_cuisine_id(city_id, 'south indian')
-        print(self.restaurant_search(latitude, longitude, cuisine_id, 20))
+        return self.restaurant_search(latitude, longitude, cuisine_id)

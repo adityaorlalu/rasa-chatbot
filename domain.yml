@@ -33,6 +33,9 @@ slots:
   budget_min:
     auto_fill: false
     type: unfeaturized
+  budget_max:
+    auto_fill: false
+    type: unfeaturized
   cuisine:
     auto_fill: false
     type: unfeaturized
@@ -43,6 +46,8 @@ slots:
     auto_fill: false
     type: unfeaturized
   requested_slot:
+    type: unfeaturized
+  email_content:
     type: unfeaturized
 templates:
   utter_ask_cuisine:
