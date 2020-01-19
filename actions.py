@@ -3,7 +3,7 @@ import json
 
 from typing import Text, List, Dict, Union, Any, Tuple
 
-from rasa_sdk import Tracker,Action
+from rasa_sdk import Tracker, Action
 from rasa_sdk.events import (SlotSet, EventType)
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.forms import FormAction

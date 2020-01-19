@@ -5,8 +5,10 @@ pipeline:
   - name: "SpacyNLP"
   - name: "SpacyTokenizer"
   - name: "RegexFeaturizer"
+    return_sequence: true
   - name: "SpacyFeaturizer"
     return_sequence: true
+  - name: "regex.RegexEntityExtractor"
   - name: "CRFEntityExtractor"
     return_sequence: true
   - name: "EntitySynonymMapper"
