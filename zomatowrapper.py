@@ -112,7 +112,7 @@ class ZomatoWapper():
 
         # run below loop for 10 times
         # offset is required as zomato has a limitation where it can give max restaurant count upto 20. providing offset will help in getting more results
-        for offset in range(0, 40, 20):
+        for offset in range(0, 199, 20):
             # create multiprocessing thread, list_obj will the object which will be updated from each thread if result found
             p = Process(target=self._restaurant_search_offset, args=(offset, latitude, longitude, cuisine_id, 20, list_obj))
             jobs.append(p)
@@ -130,5 +130,5 @@ class ZomatoWapper():
 
     def restaurant_search_by_location(self):
         _, city_id, latitude, longitude = self.get_location()
-        _, cuisine_id = self.get_cuisine_id(city_id, 'south indian')
+        _, cuisine_id = self.get_cuisine_id(city_id, 'american')
         return self.restaurant_search(latitude, longitude, cuisine_id)

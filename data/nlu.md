@@ -76,7 +76,12 @@
 - please help me to find restaurants in [pune](location)
 - Please find me a restaurantin [bangalore](location)
 - show me restaurants
-- [Italian](cuisine)
+- [italian](cuisine)
+- [mexican](cuisine)
+- [chinese](cuisine)
+- [american](cuisine)
+- [north indian](cuisine)
+- [sourth indian](cuisine)
 - please find me [chinese](cuisine) restaurant in [delhi](location)
 - can you find me a [chinese](cuisine) restaurant
 - please find me a restaurant in [ahmedabad](location)

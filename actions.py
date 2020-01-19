@@ -98,7 +98,6 @@ class RestaurantSearchForm(FormAction):
 			budget_min = 700
 			budget_max = 1000
 
-		logger.log("determine budget -> Budget: [%s], Budget_Min:[%s], Budget_Max:[%s]", budget, budget_min, budget_max)
 		return budget_min, budget_max
 
 
@@ -189,6 +188,7 @@ class RestaurantSearchForm(FormAction):
 		
 		# filter the results based on budget range and sort based on customer rating
 		df = df[(df['Budget'] < budget_max) & (df['Budget'] > budget_min)]
+		df = df[df['Rating'] != 0]
 		df = df.sort_values(by=['Rating'], ascending=False)[:10]
 		df = df.reset_index()
 
