@@ -17,12 +17,19 @@ from mail import SendEmailWapper
 logger = logging.getLogger(__name__)
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=logging.DEBUG)
 
+##################################################################################################
+# Configuration
+# 	Please 
+##################################################################################################
 config={
 	"user_key":"c70b18b69ff112b04d76cebf3fa1a545"
 	}
 
 SENDER_EMAIL_ADDRESS = 'adityalalu@gmail.com'
 SENDER_EMAIL_PASSWORD = 'Lalu_003'
+
+
+##################################################################################################
 
 class RestaurantSearchForm(FormAction):
 	""" Form for Restaurant Search """
@@ -110,7 +117,7 @@ class RestaurantSearchForm(FormAction):
 			return {entities.LOCATION : value.lower()}			
 		else:
 			# validation failed, set this slot to None, meaning the
-            # user will be asked for the slot again
+			# user will be asked for the slot again
 			dispatcher.utter_message("Presently we dont have offering for location %s.\n Please choose some other location." %(value))
 			dispatcher.utter_message(template="utter_ask_location")
 			return {entities.LOCATION : None}
@@ -126,7 +133,7 @@ class RestaurantSearchForm(FormAction):
 			return {entities.CUISINE : value.lower()}
 		else:
 			# validation failed, set this slot to None, meaning the
-            # user will be asked for the slot again
+			# user will be asked for the slot again
 			dispatcher.utter_message("Presently we dont have offering for %s cuisine restaurant in location %s.\n" %(value, location))
 			dispatcher.utter_message(template='utter_ask_cuisine')
 			return {entities.CUISINE : None}
@@ -208,6 +215,7 @@ class RestaurantSearchForm(FormAction):
 		# create another slot which will be used in email formaction
 		return [SlotSet('email_content', details_for_email)]
 
+##################################################################################################
 
 class SendEmailForm(FormAction):
 	""" Form for sending email Search """
@@ -232,6 +240,7 @@ class SendEmailForm(FormAction):
 				self.from_entity(entity=entities.EMAIL_ID),
 				self.from_intent(intent=intents.AFFIRM, value=True),
                 self.from_intent(intent=intents.DENY, value=False),
+				self.from_intent(intent=intents.GOODBEY, value=False),
 			]		
 		}
 
@@ -284,3 +293,5 @@ class SendEmailForm(FormAction):
 		else:
 			dispatcher.utter_message(template='utter_repsonse_email_sent_failed')
 		return []
+
+##################################################################################################
