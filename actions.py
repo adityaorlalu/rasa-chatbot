@@ -21,8 +21,8 @@ config={
 	"user_key":"c70b18b69ff112b04d76cebf3fa1a545"
 	}
 
-SENDER_EMAIL_ADDRESS = ''
-SENDER_EMAIL_PASSWORD = ''
+SENDER_EMAIL_ADDRESS = 'adityalalu@gmail.com'
+SENDER_EMAIL_PASSWORD = 'Lalu_003'
 
 class RestaurantSearchForm(FormAction):
 	""" Form for Restaurant Search """
@@ -262,7 +262,7 @@ class SendEmailForm(FormAction):
 
 		# user has denied for sending email. display appropriate message and return
 		if (email_id is False):
-			dispatcher.utter_message(template='utter_prompt_no_email')
+			dispatcher.utter_message(template='utter_response_no_email')
 			return []
 		
 		# below has the logic of displaying results to users via email
@@ -280,7 +280,7 @@ class SendEmailForm(FormAction):
 		status = SendEmailWapper.send(SENDER_EMAIL_ADDRESS, SENDER_EMAIL_PASSWORD, email_id, subject, email_response)
 		# check if email send is success or failure and display appropriate message to user
 		if (status is True):
-			dispatcher.utter_message(template='utter_repsone_email_sent_success')
+			dispatcher.utter_message(template='utter_repsonse_email_sent_success')
 		else:
-			dispatcher.utter_message(template='utter_repsone_email_sent_failed')
+			dispatcher.utter_message(template='utter_repsonse_email_sent_failed')
 		return []

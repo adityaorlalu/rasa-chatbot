@@ -98,7 +98,7 @@ templates:
   - text: "To what email id should I send it to?"
   utter_response_no_email:
   - text: "Okay. Bon Appetit!"
-  utter_repsone_email_sent_success:
+  utter_repsonse_email_sent_success:
   - text: "Sent. Bon Appetit!"
-  utter_repsone_email_sent_failed:
+  utter_repsonse_email_sent_failed:
   - text: "Sorry, facing issue with Email server presently. Team working on it."
