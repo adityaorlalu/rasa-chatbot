@@ -126,9 +126,3 @@ class ZomatoWapper():
             df = df.append(pd.Series([innerlist[0], innerlist[1], innerlist[2], innerlist[3]], index=df.columns), ignore_index=True)
 
         return df
-    
-
-    def restaurant_search_by_location(self):
-        _, city_id, latitude, longitude = self.get_location()
-        _, cuisine_id = self.get_cuisine_id(city_id, 'american')
-        return self.restaurant_search(latitude, longitude, cuisine_id)
