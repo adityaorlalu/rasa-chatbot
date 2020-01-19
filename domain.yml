@@ -18,13 +18,13 @@ forms:
 - restaurant_search_form
 - send_email_form
 intents:
-- deny
+- affirm
 - restaurant_search
 - greet
-- affirm
-- goodbye
-- budget_choice
 - send_email
+- goodbye
+- deny
+- budget_choice
 session_config:
   carry_over_slots_to_new_session: true
   session_expiration_time: 480

@@ -29,10 +29,9 @@
 - have a nice day
 - see you again
 - thanks bye
-- [Thanks](location:thanks)
 - Thanks bye
 - bye bye
-- [thanks](location)
+- thanks
 
 ## intent:affirm
 - true
@@ -60,6 +59,7 @@
 - No, thanks
 - No thanks
 - no. thanks
+- no thanks
 
 ## intent:restaurant_search
 - i'm looking for a place to eat
@@ -210,6 +210,7 @@
 - [delhi](location)
 - less than [300](budget:low)
 - Lesser than [300](budget:low)
+- Lesser than Rs. [300](budget:low)
 - [<300](budget:low)
 - [< 300](budget:low)
 - [<700](budget:moderate)
@@ -232,63 +233,51 @@
 - 300 [-700](budget:moderate)
 - in [patna](location)
 - restaurant in [delhi](location)
-- [adityaorlalu@gmail.com](emailid)[adityaorlalu@gmail.com](emailid)
 - I am looking for restaurant in [delhi](location)
 - [south indian](cuisine)
-- [yes, adityaorlalu@gmail.com](emailid:adityaorlalu@gmail.com)[adityaorlalu@gmail.com](emailid)
 - I am looking for [mexican](cuisine) restaurant in [patna](location)
-- [jddk.2dd@kdl.co.in](emailid)[jddk.2dd@kdl.co.in](location)
 - I am looking for [american](cuisine) restaurant in [hyderabad](location) with budget [< 300](budget:low)
 - Hi, I am looking for restaurant
 - in [kolkota](location)
 - [Pune](location:pune)
 - Can help me to find restaurant in [Mumbai](location:mumbai)
 - in [kochi](location)
-- [nishikumari@cisco.com](emailid)[nishikumari@cisco.com](emailid)
 - I am looking for a good restaurant in [bangalore](location)
 - Hi, I am looking for thai restaurant in [kota](location)
-- [xya@edu.in](emailid)[xya@edu.in](location)
 - Can you suggest some restaurant
-- [Yes, adityaorlalu@gmail.com](emailid:adityaorlalu@gmail.com)
 - I am looking for a restaurant
 - suggest some restaurant from [patna](location)
-- [yes, adityaorlalu@gmail.com](emailid:adityaorlalu@gmail.com)[yes, adityaorlalu@gmail.com](emailid:adityaorlalu@gmail.com)
 - I’m hungry. Looking out for some good restaurants
 - I'll prefer [thai](cuisine)
 - 300 [- 700](budget:moderate) range
-- [Yes, adityaorlalu@gmail.com](emailid:adityaorlalu@gmail.com)[Yes, adityaorlalu@gmail.com](emailid:adityaorlalu@gmail.com)
 - show me some restaurant in [madras](location:chennai)
-- [aditya@gmail.com](emailid)
 - restaurant search
 - looking for restaurant in [bengaluru](location:bangalore)
-- [edu.sdfa@ddsdf.ci](emailid)[edu.sdfa@ddsdf.ci](location)
 - I am looking for restaurant in [nagpur](location)
-- [nishikumari@gmail.com](emailid)[nishikumari@gmail.com](emailid)
 - suggest me some restaurant from [patna](location)
-- [abc@edu.xyz](emailid)[abc@edu.xyz](emailid)
 - Looking for [south indian](cuisine) restaurant in [ranchi](location)
-- [abhishek_sdf@eedu.go.in](emailid)
 - suggest me some restaurant in [chennai](location)
-- [asdfasf@asdfasdf.com.sd](emailid)
 - show some [chinese](cuisine) restaurant in [patna](location)
 - suggest me some restaurant
-- [yes please, my email id is adityaorlalu@gmail.com](emailid:adityaorlalu@gmail.com)[adityaorlalu@gmail.com](emailid)
 - Show some [american](cuisine) restaurants in [ranchi](location)
 - I'll prefer [italian](cuisine)
-- [yes, please send it to ahdcdj@dkj.com](emailid:ahdcdj@dkj.com)[ahdcdj@dkj.com](emailid)
 - Can you suggest some good restaurants in [Rishikesh](location:rishikesh)
 - Okay. Show me some in [Allahabad](location:prayagraj)
 - i'll prefer [chines](cuisine:chinese)
-- [yes, please send it to xyz@sth.edu](emailid:xyz@sth.edu)[xyz@sth.edu](emailid)
 - Can you suggest some restaurnt in [guwathi](location)
 - [gwathati](location)
 - [kolkota](location)
 - 300[-700](budget:moderate)
 - in [mubaim](location)
 - in [Mumbai](location:mumbai)
-- [samgoryal@ddddd.com](emailid)[samgoryal@ddddd.com](emailid)
 - I’m hungry. Looking out for some good [chinese](cuisine) restaurants in [chandigarh](location)
-- [<300](budget:low)
+- looking for restaurant in [patna](location)
+- Looking for restaurant in [patna](location)
+- looking for restaurant in [delhi](location)
+- Looking for restaurant
+- suggest me some restaurants in [bengaluru](location:bangalore)
+- [mexican](cuisine)
+- Rs. 300 [to 700](budget:moderate)
 
 ## intent:send_email
 - please send email to [adityalalu@gmail.com](emailid)
@@ -300,18 +289,12 @@
 - [ahbcdj@dkj.com](emailid)
 - [xyz@sth.edu](emailid)
 - [adi_343_g@yahoo.co.au](emailid)
-
-## synonym:adityaorlalu@gmail.com
-- yes, adityaorlalu@gmail.com
-- Yes, adityaorlalu@gmail.com
-- yes please, my email id is adityaorlalu@gmail.com
+- [adityaorlalu@gmail.com](emailid)
+- [nishikumari@gmail.something](emailid)
 
 ## synonym:agra
 - aagra
 - agraa
-
-## synonym:ahdcdj@dkj.com
-- yes, please send it to ahdcdj@dkj.com
 
 ## synonym:ahmedabad
 - ahmedbad
@@ -730,9 +713,6 @@
 
 ## synonym:warangal
 - varangal
-
-## synonym:xyz@sth.edu
-- yes, please send it to xyz@sth.edu
 
 ## regex:emailid
 - [A-z0-9._%+-]+@[A-z0-9.-]+[A-z.]{2,4}

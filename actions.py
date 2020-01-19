@@ -4,7 +4,7 @@ import json
 from typing import Text, List, Dict, Union, Any, Tuple
 
 from rasa_sdk import Tracker, Action
-from rasa_sdk.events import (SlotSet, EventType)
+from rasa_sdk.events import (SlotSet, EventType, AllSlotsReset)
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.forms import FormAction
 
@@ -159,6 +159,10 @@ class RestaurantSearchForm(FormAction):
 		cuisine = tracker.get_slot(entities.CUISINE)
 		budget_max = tracker.get_slot(entities.BUDGET_MAX)
 		budget_min = tracker.get_slot(entities.BUDGET_MIN)
+		logger.info("Restaurant Search Form submit: location:[%s]", location)
+		logger.info("Restaurant Search Form submit: cuisine:[%s]", cuisine)
+		logger.info("Restaurant Search Form submit: budgetmax:[%s]" , budget_max)
+		logger.info("Restaurant Search Form submit: budgetmin:[%s]" , budget_min)
 
 		# initialise the zomato wrapper
 		zomatoWapper = ZomatoWapper(config, location)
@@ -205,7 +209,6 @@ class RestaurantSearchForm(FormAction):
 			statement = "%s - '%s' in '%s' has been rated %s \n" %(str(row_index + 1), df['Name'][row_index], df['Address'][row_index], df['Rating'][row_index])
 			response = response + statement
 		dispatcher.utter_message(response)
-
 		# lets create a list of results which we might require to send email if user opt for this.
 		# this will be add as new slot 'email_content'
 		global details_for_email
@@ -280,7 +283,7 @@ class SendEmailForm(FormAction):
 		# user has denied for sending email. display appropriate message and return
 		if (email_id is False):
 			dispatcher.utter_message(template='utter_response_no_email')
-			return []
+			return [AllSlotsReset()]
 		
 		# below has the logic of displaying results to users via email
 		subject = "Top rated %s restaurants from %s" %(cuisine, location)
@@ -302,6 +305,6 @@ class SendEmailForm(FormAction):
 			dispatcher.utter_message(template='utter_repsonse_email_sent_success')
 		else:
 			dispatcher.utter_message(template='utter_repsonse_email_sent_failed')
-		return []
+		return [AllSlotsReset()]
 
 ##################################################################################################
