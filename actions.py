@@ -82,8 +82,13 @@ class RestaurantSearchForm(FormAction):
 			'bijapur', 'vadodara', 'varanasi', 'vasai-virar city', 'vijayawada', 'vellore', 'warangal', 'surat', 'visakhapatnam'
         ]
 
+
 	@staticmethod
 	def determine_budget_range(budget:Text) -> Tuple[Text, Text]:
+		"""
+			Method to evaluate budget range
+			Default - Moderate(300 - 700)
+		"""
 		budget_min = 300
 		budget_max = 700
 		if (budget == 'low') :
@@ -93,10 +98,13 @@ class RestaurantSearchForm(FormAction):
 			budget_min = 700
 			budget_max = 1000
 
+		logger.log("determine budget -> Budget: [%s], Budget_Min:[%s], Budget_Max:[%s]", budget, budget_min, budget_max)
 		return budget_min, budget_max
+
 
 	def validate_location(self, value: Text, dispatcher: CollectingDispatcher, tracker: Tracker, domain:Dict[Text, Any]) -> Dict[Text, Any]:
 		"""validate location value"""
+
 		logger.info("validate location is : %s", str(value))
 		if value.lower() in self.location_db():
 			# validation succeeded, set the value of the "location" slot to value
@@ -111,6 +119,7 @@ class RestaurantSearchForm(FormAction):
 
 	def validate_cuisine(self, value: Text, dispatcher: CollectingDispatcher, tracker: Tracker, domain:Dict[Text, Any]) -> Dict[Text, Any]:
 		"""validate cuisine value"""
+
 		logger.info("validate cuisine is : %s", str(value))
 		location = tracker.get_slot(entities.LOCATION)
 		if value.lower() in self.cuisine_db():
@@ -126,7 +135,7 @@ class RestaurantSearchForm(FormAction):
 
 	def validate_budget(self, value: Text, dispatcher: CollectingDispatcher, tracker: Tracker, domain:Dict[Text, Any]) -> Dict[Text, Any]:
 		"""validate budget value"""
-		# Test code
+
 		logger.info("validate budget is : %s", str(value))
 		buget_min, budget_max = self.determine_budget_range(value)
 
@@ -135,46 +144,68 @@ class RestaurantSearchForm(FormAction):
 
 
 	def submit(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[EventType]:
+		"""
+			Once all the required slots are filled, FormAction will call this method
+			This method has a responsibility of calling zomato api and display results to users
+		"""
+		# initialise the variables will all the required slots
 		location = tracker.get_slot(entities.LOCATION)
 		cuisine = tracker.get_slot(entities.CUISINE)
 		budget_max = tracker.get_slot(entities.BUDGET_MAX)
 		budget_min = tracker.get_slot(entities.BUDGET_MIN)
 
+		# initialise the zomato wrapper
 		zomatoWapper = ZomatoWapper(config, location)
 
+		# get city_id, latitude and longitude from zomato get_location api
 		status, city_id, latitude, longitude = zomatoWapper.get_location()
-		if (status != 'success'):
+		
+		# below is the safer check to make sure api has successed and all required fields like (latitude, longitude and city_id) are populated
+		# otherwise, display appropriate message to user
+		if (status != 'success' or (latitude == 0 and longitude == 0 and city_id == 0)):
 			dispatcher.utter_message("Presently we dont have offering for location %s.\n" %(location))
 			dispatcher.utter_message(template='utter_ask_cuisine')
 			return [SlotSet(entities.LOCATION, None)]
 
+		# get cuisine_id from zomato cuisines api
 		status, cuisine_id = zomatoWapper.get_cuisine_id(city_id, cuisine)
-		if (status != 'success'):
+
+		# below is the safer check to make sure api has successed and cuisine_id is populated
+		# otherwise, display appropriate message to user
+		if (status != 'success' or cuisine_id == 0):
 			dispatcher.utter_message("Presently we dont have offering for %s cuisine restaurant in location %s.\n" %(cuisine, location))
 			dispatcher.utter_message(template='utter_ask_cuisine')
 			return [SlotSet(entities.CUISINE, None)]
 		
+		# get restaurant search result from zomato search api. zomatowrapper will update the results in dataframe.
 		df = zomatoWapper.restaurant_search(latitude, longitude, cuisine_id)
 
+		# condition for no result
+		# if no result, then display appropriate message to user
 		if (df.shape[0] == 0):
 			dispatcher.utter_message("Presently we dont have offering for %s cuisine restaurant in location %s.\n" %(cuisine, location))
 			dispatcher.utter_message(template='utter_ask_cuisine')
 			return [SlotSet(entities.CUISINE, None)]
 		
-		df = df[(df['Budget'] < budget_max) & (df['Budget'] > budget_min) ]
+		# filter the results based on budget range and sort based on customer rating
+		df = df[(df['Budget'] < budget_max) & (df['Budget'] > budget_min)]
 		df = df.sort_values(by=['Rating'], ascending=False)[:10]
 		df = df.reset_index()
 
+		# below has the logic of displaying results to users
 		response = 'Showing you top rated restaurants: \n'
 		for row_index in range(0, 5):
 			statement = "%s - '%s' in '%s' has been rated %s \n" %(str(row_index + 1), df['Name'][row_index], df['Address'][row_index], df['Rating'][row_index])
 			response = response + statement
 		dispatcher.utter_message(response)
 
+		# lets create a list of results which we might require to send email if user opt for this.
+		# this will be add as new slot 'email_content'
 		details_for_email = []
 		for row_index in range(0, df.shape[0]):
 			details_for_email.append([df['Name'][row_index], df['Address'][row_index], df['Budget'][row_index], df['Rating'][row_index]])
 		
+		# create another slot which will be used in email formaction
 		return [SlotSet('email_content', details_for_email)]
 
 
@@ -207,36 +238,47 @@ class SendEmailForm(FormAction):
 	def validate_emailid(self, value: Text, dispatcher: CollectingDispatcher, tracker: Tracker, domain:Dict[Text, Any]) -> Dict[Text, Any]:
 		"""validate email id value"""
 		logger.info("validate email id is : %s", str(value))
-		if (type(value) is not bool and '@' in value) :
+		if (type(value) is not bool and '@' in value):
+			# users has input valid email
 			return {entities.EMAIL_ID : value.lower()}
 		elif (value is True):
+			# user has affirm, ask him to provided email address
 			dispatcher.utter_message(template='utter_ask_emailid_details')
 			return {entities.EMAIL_ID : None}
 		else:
+			# user has deny
 			return {entities.EMAIL_ID : False}
 	
 	def submit(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[EventType]:
+		"""
+			Once all the required slots are filled, FormAction will call this method
+			This method has a responsibility of sending email to user based on emailid slot populated value
+		"""
+		# # initialise the variables will all the required slots
 		email_content_list = tracker.get_slot('email_content')
 		email_id = tracker.get_slot(entities.EMAIL_ID)
 		location = tracker.get_slot(entities.LOCATION)
 		cuisine = tracker.get_slot(entities.CUISINE)
 
+		# user has denied for sending email. display appropriate message and return
 		if (email_id is False):
 			dispatcher.utter_message(template='utter_prompt_no_email')
 			return []
 		
+		# below has the logic of displaying results to users via email
 		subject = "Top rated %s restaurants from %s" %(cuisine, location)
-		email_respone = 'Hi, \n\n Below are the list of top rated restaurants:\n\n'
+		email_response = 'Hi, \n\n Below are the list of top rated restaurants:\n\n'
 		for row in email_content_list:
 			statement = 'Restaurant Name: %s\n' %(row[0])
 			statement = statement + 'Restaurant locality address: %s\n' %(row[1])
 			statement = statement + 'Average budget for two people: %s\n' %(row[2])
 			statement = statement + 'Zomato user rating: %s\n\n' %(row[3])
-			email_respone = email_respone + statement
-		
-		email_respone = email_respone + "\n Regards, \nZomato Team"
+			email_response = email_response + statement
+		email_response = email_response + "\n Regards, \nZomato Team"
 
-		status = SendEmailWapper.send(SENDER_EMAIL_ADDRESS, SENDER_EMAIL_PASSWORD, email_id, subject, email_respone)
+		# send the email to user
+		status = SendEmailWapper.send(SENDER_EMAIL_ADDRESS, SENDER_EMAIL_PASSWORD, email_id, subject, email_response)
+		# check if email send is success or failure and display appropriate message to user
 		if (status is True):
 			dispatcher.utter_message(template='utter_repsone_email_sent_success')
 		else:
