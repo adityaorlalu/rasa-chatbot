@@ -17,6 +17,8 @@ from mail import SendEmailWapper
 logger = logging.getLogger(__name__)
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=logging.DEBUG)
 
+details_for_email = []
+
 ##################################################################################################
 # Configuration
 # 	Please 
@@ -118,8 +120,7 @@ class RestaurantSearchForm(FormAction):
 		else:
 			# validation failed, set this slot to None, meaning the
 			# user will be asked for the slot again
-			dispatcher.utter_message("Presently we dont have offering for location %s.\n Please choose some other location." %(value))
-			dispatcher.utter_message(template="utter_ask_location")
+			dispatcher.utter_message("Presently we dont have offering for location %s.\nPlease choose some other location." %(value))
 			return {entities.LOCATION : None}
 
 
@@ -135,7 +136,6 @@ class RestaurantSearchForm(FormAction):
 			# validation failed, set this slot to None, meaning the
 			# user will be asked for the slot again
 			dispatcher.utter_message("Presently we dont have offering for %s cuisine restaurant in location %s.\n" %(value, location))
-			dispatcher.utter_message(template='utter_ask_cuisine')
 			return {entities.CUISINE : None}
 
 
@@ -185,13 +185,6 @@ class RestaurantSearchForm(FormAction):
 		
 		# get restaurant search result from zomato search api. zomatowrapper will update the results in dataframe.
 		df = zomatoWapper.restaurant_search(latitude, longitude, cuisine_id)
-
-		# condition for no result
-		# if no result, then display appropriate message to user
-		if (df.shape[0] == 0):
-			dispatcher.utter_message("Presently we dont have offering for %s cuisine restaurant in location %s.\n" %(cuisine, location))
-			dispatcher.utter_message(template='utter_ask_cuisine')
-			return [SlotSet(entities.CUISINE, None)]
 		
 		# filter the results based on budget range and sort based on customer rating
 		df = df[(df['Budget'] < budget_max) & (df['Budget'] > budget_min)]
@@ -199,21 +192,29 @@ class RestaurantSearchForm(FormAction):
 		df = df.sort_values(by=['Rating'], ascending=False)[:10]
 		df = df.reset_index()
 
+		# condition for no result
+		# if no result, then display appropriate message to user
+		if (df.shape[0] == 0):
+			dispatcher.utter_message("Presently we dont have offering for %s cuisine restaurant in location %s.\n" %(cuisine, location))
+			dispatcher.utter_message(template='utter_ask_cuisine')
+			return [SlotSet(entities.CUISINE, None)]
+
 		# below has the logic of displaying results to users
 		response = 'Showing you top rated restaurants: \n'
-		for row_index in range(0, 5):
+		for row_index in range(0, df.shape[0]):
 			statement = "%s - '%s' in '%s' has been rated %s \n" %(str(row_index + 1), df['Name'][row_index], df['Address'][row_index], df['Rating'][row_index])
 			response = response + statement
 		dispatcher.utter_message(response)
 
 		# lets create a list of results which we might require to send email if user opt for this.
 		# this will be add as new slot 'email_content'
+		global details_for_email
 		details_for_email = []
 		for row_index in range(0, df.shape[0]):
 			details_for_email.append([df['Name'][row_index], df['Address'][row_index], df['Budget'][row_index], df['Rating'][row_index]])
-		
-		# create another slot which will be used in email formaction
-		return [SlotSet('email_content', details_for_email)]
+
+		return []
+
 
 ##################################################################################################
 
@@ -232,7 +233,8 @@ class SendEmailForm(FormAction):
 		return [
 			entities.EMAIL_ID
 		]
-	
+
+
 	def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
 		"""a dictionary to map required solt for restaurant search"""
 		return {
@@ -244,30 +246,36 @@ class SendEmailForm(FormAction):
 			]		
 		}
 
+
 	def validate_emailid(self, value: Text, dispatcher: CollectingDispatcher, tracker: Tracker, domain:Dict[Text, Any]) -> Dict[Text, Any]:
 		"""validate email id value"""
 		logger.info("validate email id is : %s", str(value))
 		if (type(value) is not bool and '@' in value):
 			# users has input valid email
 			return {entities.EMAIL_ID : value.lower()}
+		if (type(value) is list and '@' in value[0]):
+			return {entities.EMAIL_ID : value[0]}
 		elif (value is True):
-			# user has affirm, ask him to provided email address
-			dispatcher.utter_message(template='utter_ask_emailid_details')
-			return {entities.EMAIL_ID : None}
+			# user has affirm
+			return {entities.EMAIL_ID : True}
 		else:
 			# user has deny
 			return {entities.EMAIL_ID : False}
-	
+
+
 	def submit(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[EventType]:
 		"""
 			Once all the required slots are filled, FormAction will call this method
 			This method has a responsibility of sending email to user based on emailid slot populated value
 		"""
 		# # initialise the variables will all the required slots
-		email_content_list = tracker.get_slot('email_content')
 		email_id = tracker.get_slot(entities.EMAIL_ID)
 		location = tracker.get_slot(entities.LOCATION)
 		cuisine = tracker.get_slot(entities.CUISINE)
+
+		if (type(email_id) is bool and email_id is True):
+			dispatcher.utter_message(template='utter_ask_emailid_details')
+			return [SlotSet(entities.EMAIL_ID, None)]
 
 		# user has denied for sending email. display appropriate message and return
 		if (email_id is False):
@@ -277,7 +285,9 @@ class SendEmailForm(FormAction):
 		# below has the logic of displaying results to users via email
 		subject = "Top rated %s restaurants from %s" %(cuisine, location)
 		email_response = 'Hi, \n\n Below are the list of top rated restaurants:\n\n'
-		for row in email_content_list:
+		
+		global details_for_email
+		for row in details_for_email:
 			statement = 'Restaurant Name: %s\n' %(row[0])
 			statement = statement + 'Restaurant locality address: %s\n' %(row[1])
 			statement = statement + 'Average budget for two people: %s\n' %(row[2])

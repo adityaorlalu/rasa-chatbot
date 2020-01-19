@@ -1,44 +1,41 @@
-session_config:
-  carry_over_slots_to_new_session: true
-  session_expiration_time: 480
-
 actions:
 - utter_ask_cuisine
-- utter_ask_how_can_i_help
+- utter_ask_emailid
+- utter_ask_emailid_details
 - utter_ask_location
 - utter_default
 - utter_goodbye
 - utter_greet
-
 entities:
 - budget
 - budget_max
 - budget_min
 - cuisine
+- deny
 - emailid
 - location
-
 forms:
 - restaurant_search_form
 - send_email_form
-
 intents:
-- budget_choice
-- greet
-- restaurant_search
-- affirm
 - deny
+- restaurant_search
+- greet
+- affirm
 - goodbye
+- budget_choice
 - send_email
-
+session_config:
+  carry_over_slots_to_new_session: true
+  session_expiration_time: 480
 slots:
   budget:
     auto_fill: false
     type: unfeaturized
-  budget_min:
+  budget_max:
     auto_fill: false
     type: unfeaturized
-  budget_max:
+  budget_min:
     auto_fill: false
     type: unfeaturized
   cuisine:
@@ -52,10 +49,18 @@ slots:
     type: unfeaturized
   requested_slot:
     type: unfeaturized
-  email_content:
+  search_done:
     type: unfeaturized
-
 templates:
+  utter_ask_budget:
+  - buttons:
+    - payload: Lesser than Rs. 300
+      title: Lesser than Rs. 300
+    - payload: Rs. 300 to 700
+      title: Rs. 300 to 700
+    - payload: More than 700
+      title: More than 700
+    text: What's the average budget for two people?
   utter_ask_cuisine:
   - buttons:
     - payload: chinese
@@ -71,34 +76,22 @@ templates:
     - payload: north indian
       title: North Indian
     text: What kind of cuisine would you prefer?
-  utter_ask_budget:
-  - buttons:
-    - payload: Lesser than Rs. 300
-      title: Lesser than Rs. 300
-    - payload: Rs. 300 to 700
-      title: Rs. 300 to 700
-    - payload: More than 700
-      title: More than 700
-    text: "What's the average budget for two people?"
-  utter_ask_how_can_i_help:
-  - text: How may I help you today
+  utter_ask_emailid:
+  - text: Should I send you details of all the restaurants on email?
+  utter_ask_emailid_details:
+  - text: To what email id should I send it to?
   utter_ask_location:
   - text: In which city are you looking for restaurants?
   utter_default:
   - text: Sorry, can you please provide valid input.
   utter_goodbye:
   - text: Thanks for reaching out to us. Have a good day. Bye!!
-  - text: Bye-Bye
   utter_greet:
   - text: Hey there! how may I help you
   - text: Hi! how can I help you
-  utter_ask_emailid:
-  - text: "Should we send you details of all the restaurants on email?"
-  utter_ask_emailid_details:
-  - text: "To what email id should I send it to?"
-  utter_response_no_email:
-  - text: "Okay. Bon Appetit!"
-  utter_repsonse_email_sent_success:
-  - text: "Sent. Bon Appetit!"
   utter_repsonse_email_sent_failed:
-  - text: "Sorry, facing issue with Email server presently. Team working on it."
+  - text: Sorry, facing issue with Email server presently. Team working on it.
+  utter_repsonse_email_sent_success:
+  - text: Sent. Bon Appetit!
+  utter_response_no_email:
+  - text: Okay. Bon Appetit!
