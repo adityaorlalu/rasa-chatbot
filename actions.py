@@ -21,14 +21,14 @@ details_for_email = []
 
 ##################################################################################################
 # Configuration
-# 	Please 
 ##################################################################################################
 config={
 	"user_key":"c70b18b69ff112b04d76cebf3fa1a545"
 	}
 
-SENDER_EMAIL_ADDRESS = 'adityalalu@gmail.com'
-SENDER_EMAIL_PASSWORD = 'Lalu_003'
+# configuration for senders gmail address and password
+SENDER_EMAIL_ADDRESS = ''
+SENDER_EMAIL_PASSWORD = ''
 
 
 ##################################################################################################

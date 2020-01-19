@@ -7,6 +7,7 @@ actions:
 - utter_goodbye
 - utter_greet
 entities:
+- affirm
 - budget
 - budget_max
 - budget_min
@@ -18,8 +19,8 @@ forms:
 - restaurant_search_form
 - send_email_form
 intents:
-- affirm
 - restaurant_search
+- affirm
 - greet
 - send_email
 - goodbye

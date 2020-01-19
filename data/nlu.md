@@ -45,6 +45,10 @@
 - yo
 - Yes
 - Hello, how are you
+- [yes.](affirm:yes) Please
+- [yes.](affirm:yes) please
+- yes please
+- [yes. Please](affirm:yes)[yes.](affirm:yes) Please
 
 ## intent:deny
 - no
@@ -89,8 +93,8 @@
 - I am looking for some restaurants in [Mumbai](location)
 - I am looking for [mexican indian fusion](cuisine:mexican)
 - [patna](location) [indian](cuisine) restaurant
-- please help me to find restaurants in [pune](location)
-- Please find me a restaurantin [bangalore](location)
+- help me to find restaurants in [pune](location)
+- find me a restaurantin [bangalore](location)
 - show me restaurants
 - [italian](cuisine)
 - [mexican](cuisine)
@@ -98,11 +102,11 @@
 - [american](cuisine)
 - [north indian](cuisine)
 - [sourth indian](cuisine)
-- please find me [chinese](cuisine) restaurant in [delhi](location)
+- find me [chinese](cuisine) restaurant in [delhi](location)
 - can you find me a [chinese](cuisine) restaurant
-- please find me a restaurant in [ahmedabad](location)
-- please show me a few [italian](cuisine) restaurants in [bangalore](location)
-- please help me find [south indian](cuisine) place in [ranchi](location)
+- find me a restaurant in [ahmedabad](location)
+- show me a few [italian](cuisine) restaurants in [bangalore](location)
+- help me find [south indian](cuisine) place in [ranchi](location)
 - [bangalore](location)
 - [chennai](location)
 - [hyderabad](location)
@@ -276,16 +280,27 @@
 - looking for restaurant in [delhi](location)
 - Looking for restaurant
 - suggest me some restaurants in [bengaluru](location:bangalore)
-- [mexican](cuisine)
 - Rs. 300 [to 700](budget:moderate)
+- Can you suggest some good restaurants in [kolkata](location)
+- can you suggest some restaurants in [kolkata](location)
+- [jddk.2jmd@kdl.co.in](emailid)[jddk.2jmd@kdl.co.in](emailid)
+- suggest some restaurants in [ranchi](location)
+- More than [700](budget:high)
+- [adityaorlalu@gmail.com](emailid)[adityaorlalu@gmail.com](emailid)
+- [chines](cuisine:chinese)
+- [yes. send it to xyz@sth.edu](emailid:xyz@sth.edu)[xyz@sth.edu](emailid)
+- in [mumbai](location)
+- [american](cuisine)
+- More than [700](budget:high)
+- [adityaorlalu@gmail.com](emailid)[adityaorlalu@gmail.com](emailid)
 
 ## intent:send_email
-- please send email to [adityalalu@gmail.com](emailid)
+- send email to [adityalalu@gmail.com](emailid)
 - emailid:[adi_343_g@yahoo.com](emailid)
 - email to: [zzdy1232@gmail.com](emailid)
 - [abhishek.332@gmail.com](emailid)
 - [abhishek@upgrad.com](emailid)
-- yes. Please send it to [abc@dkj.com](emailid)
+- send it to [abc@dkj.com](emailid)
 - [ahbcdj@dkj.com](emailid)
 - [xyz@sth.edu](emailid)
 - [adi_343_g@yahoo.co.au](emailid)
@@ -713,6 +728,15 @@
 
 ## synonym:warangal
 - varangal
+
+## synonym:xyz@sth.edu
+- yes. send it to xyz@sth.edu
+
+## synonym:yes
+- yes.
+
+## regex:affirm
+- yes[^\s]*
 
 ## regex:emailid
 - [A-z0-9._%+-]+@[A-z0-9.-]+[A-z.]{2,4}

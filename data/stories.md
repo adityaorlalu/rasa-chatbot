@@ -481,3 +481,207 @@
     - slot{"emailid": false}
     - form{"name": null}
     - slot{"requested_slot": null}
+
+## interactive_story_1
+* greet
+    - utter_greet
+* restaurant_search{"location": "kolkata"}
+    - restaurant_search_form
+    - form{"name": "restaurant_search_form"}
+    - slot{"location": "kolkata"}
+    - slot{"requested_slot": "cuisine"}
+* form: restaurant_search{"cuisine": "american"}
+    - form: restaurant_search_form
+    - slot{"cuisine": "american"}
+    - slot{"requested_slot": "budget"}
+* form: restaurant_search{"budget": "low"}
+    - form: restaurant_search_form
+    - slot{"budget": "low"}
+    - slot{"budget_max": 300}
+    - slot{"budget_min": 0}
+    - form{"name": null}
+    - slot{"requested_slot": null}
+    - send_email_form
+    - form{"name": "send_email_form"}
+    - slot{"requested_slot": "emailid"}
+* form: send_email
+
+## interactive_story_2
+* greet
+    - utter_greet
+* restaurant_search{"location": "kolkata"}
+    - restaurant_search_form
+    - form{"name": "restaurant_search_form"}
+    - slot{"location": "kolkata"}
+    - slot{"requested_slot": "cuisine"}
+* form: restaurant_search{"cuisine": "american"}
+    - form: restaurant_search_form
+    - slot{"cuisine": "american"}
+    - slot{"requested_slot": "budget"}
+* form: restaurant_search{"budget": "low"}
+    - form: restaurant_search_form
+    - slot{"budget": "low"}
+    - slot{"budget_max": 300}
+    - slot{"budget_min": 0}
+    - form{"name": null}
+    - slot{"requested_slot": null}
+    - send_email_form
+    - form{"name": "send_email_form"}
+    - slot{"requested_slot": "emailid"}
+* form: affirm
+    - form: send_email_form
+    - slot{"emailid": true}
+    - slot{"emailid": null}
+    - form{"name": null}
+    - slot{"requested_slot": null}
+* restaurant_search{"emailid": "jddk.2jmd@kdl.co.in"}
+    - send_email_form
+    - form{"name": "send_email_form"}
+    - slot{"emailid": "jddk.2jmd@kdl.co.in"}
+    - form: reset_slots
+    - form{"name": null}
+    - slot{"requested_slot": null}
+* greet
+    - utter_greet
+* restaurant_search{"location": "ranchi"}
+    - restaurant_search_form
+    - form{"name": "restaurant_search_form"}
+    - slot{"location": "ranchi"}
+    - slot{"requested_slot": "cuisine"}
+* form: restaurant_search{"cuisine": "south indian"}
+    - form: restaurant_search_form
+    - slot{"cuisine": "south indian"}
+    - slot{"requested_slot": "budget"}
+* form: restaurant_search{"budget": "high"}
+    - form: restaurant_search_form
+    - slot{"budget": "high"}
+    - slot{"budget_max": 700}
+    - slot{"budget_min": 300}
+    - form{"name": null}
+    - slot{"requested_slot": null}
+    - send_email_form
+    - form{"name": "send_email_form"}
+    - slot{"requested_slot": "emailid"}
+* form: affirm
+    - form: send_email_form
+    - slot{"emailid": true}
+    - slot{"emailid": null}
+    - form{"name": null}
+    - slot{"requested_slot": null}
+* restaurant_search{"emailid": "adityaorlalu@gmail.com"}
+    - send_email_form
+    - form{"name": "send_email_form"}
+    - slot{"emailid": "adityaorlalu@gmail.com"}
+    - form: reset_slots
+    - form{"name": null}
+    - slot{"requested_slot": null}
+
+## interactive_story_1
+* restaurant_search{"location": "rishikesh"}
+    - restaurant_search_form
+    - form{"name": "restaurant_search_form"}
+    - slot{"location": null}
+    - slot{"requested_slot": "location"}
+* form: restaurant_search{"location": "prayagraj"}
+    - form: restaurant_search_form
+    - slot{"location": "prayagraj"}
+    - slot{"requested_slot": "cuisine"}
+* form: restaurant_search{"cuisine": "chinese"}
+    - form: restaurant_search_form
+    - slot{"cuisine": "chinese"}
+    - slot{"requested_slot": "budget"}
+* form: restaurant_search{"budget": "high"}
+    - form: restaurant_search_form
+    - slot{"budget": "high"}
+    - slot{"budget_max": 700}
+    - slot{"budget_min": 300}
+    - form{"name": null}
+    - slot{"requested_slot": null}
+    - send_email_form
+    - form{"name": "send_email_form"}
+    - slot{"requested_slot": "emailid"}
+* form: restaurant_search{"emailid": "xyz@sth.edu"}
+    - form: send_email_form
+    - slot{"emailid": "xyz@sth.edu"}
+    - form: reset_slots
+    - form{"name": null}
+    - slot{"requested_slot": null}
+
+## interactive_story_1
+* greet
+    - utter_greet
+* restaurant_search{"location": "kolkata"}
+    - restaurant_search_form
+
+## interactive_story_2
+* greet
+    - utter_greet
+* restaurant_search{"location": "kolkata"}
+    - restaurant_search_form
+    - form{"name": "restaurant_search_form"}
+    - slot{"location": "kolkata"}
+    - slot{"requested_slot": "cuisine"}
+* form: restaurant_search{"cuisine": "american"}
+    - form: restaurant_search_form
+    - slot{"cuisine": "american"}
+    - slot{"requested_slot": "budget"}
+* form: restaurant_search{"budget": "low"}
+    - form: restaurant_search_form
+    - slot{"budget": "low"}
+    - slot{"budget_max": 300}
+    - slot{"budget_min": 0}
+    - form{"name": null}
+    - slot{"requested_slot": null}
+    - send_email_form
+    - form{"name": "send_email_form"}
+    - slot{"requested_slot": "emailid"}
+* form: affirm{"affirm": "yes"}
+    - form: send_email_form
+    - slot{"emailid": true}
+    - slot{"emailid": null}
+    - form{"name": null}
+    - slot{"requested_slot": null}
+* restaurant_search{"emailid": "adityaorlalu@gmail.com"}
+    - send_email_form
+    - form{"name": "send_email_form"}
+    - slot{"emailid": "adityaorlalu@gmail.com"}
+    - form: reset_slots
+    - form{"name": null}
+    - slot{"requested_slot": null}
+
+## interactive_story_1
+* restaurant_search
+    - restaurant_search_form
+    - form{"name": "restaurant_search_form"}
+    - slot{"requested_slot": "location"}
+* form: restaurant_search{"location": "mumbai"}
+    - form: restaurant_search_form
+    - slot{"location": "mumbai"}
+    - slot{"requested_slot": "cuisine"}
+* form: restaurant_search{"cuisine": "american"}
+    - form: restaurant_search_form
+    - slot{"cuisine": "american"}
+    - slot{"requested_slot": "budget"}
+* form: restaurant_search{"budget": "high"}
+    - form: restaurant_search_form
+    - slot{"budget": "high"}
+    - slot{"budget_max": 700}
+    - slot{"budget_min": 300}
+    - form{"name": null}
+    - slot{"requested_slot": null}
+    - send_email_form
+    - form{"name": "send_email_form"}
+    - slot{"requested_slot": "emailid"}
+* form: affirm{"affirm": "yes"}
+    - form: send_email_form
+    - slot{"emailid": true}
+    - slot{"emailid": null}
+    - form{"name": null}
+    - slot{"requested_slot": null}
+* restaurant_search{"emailid": "adityaorlalu@gmail.com"}
+    - send_email_form
+    - form{"name": "send_email_form"}
+    - slot{"emailid": "adityaorlalu@gmail.com"}
+    - form: reset_slots
+    - form{"name": null}
+    - slot{"requested_slot": null}
