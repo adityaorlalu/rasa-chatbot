@@ -90,7 +90,7 @@ kiwisolver==1.1.0
 kmodes==0.10.1
 lazy-object-proxy==1.4.1
 libarchive-c==2.8
-lief==0.9.0
+lief==0.12.2
 llvmlite==0.29.0
 locket==0.2.0
 lxml==4.3.4
